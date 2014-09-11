@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{
+            background-color: #333333;
+        }
+        .h_bartitle{
+            font-size: 18px;
+            fill: steelblue;
+            text-anchor: middle;
+        }
+        .h_bartext{
+            fill: white;
+            text-anchor: middle;
+        }
+        .prebarText{
+            font-family: sans-serif;
+            fill:white;
+            font-size: 20;
+            font-weight: bold;
+        }
+    </style>
+    <script src="lib/d3.min.js"></script>
+    <script src="js/register.js"></script>
+    <script src="chartsrc/ucommon.js"></script>
+    <script src = "chartsrc/upie_precess.js"></script>
+</head>
+<body>
+<div id="render"></div>
+<script>
+    var dataset  = [22];
+    var failVal = 100-dataset[0];
+    dataset.push(failVal);
+
+    var piegram = new UCHART.upiep();
+    piegram.setCircle(false);//是否生成圆环
+    piegram.bindData(dataset);
+    piegram.setType(0);
+    piegram.setSize(80,80);
+    piegram.setIcon(false);
+    piegram.createRender("id","render");
+    piegram.draw();
+
+    setInterval(function () {
+
+            if(dataset[0]>0&&dataset[1]>0){
+                dataset[0]++;
+                dataset[1]--
+            }
+        piegram.update(dataset);
+    },100);
+</script>
+</body>
+</html>

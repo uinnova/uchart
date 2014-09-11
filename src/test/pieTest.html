@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .h_bartitle{
+            font-size: 18px;
+            fill: steelblue;
+            text-anchor: middle;
+        }
+        .h_bartext{
+            fill: white;
+            text-anchor: middle;
+        }
+    </style>
+    <script src="lib/d3.min.js"></script>
+    <script src="js/register.js"></script>
+    <script src="chartsrc/ucommon.js"></script>
+    <script src = "chartsrc/upie_basic.js"></script>
+</head>
+<body>
+    <div id="render"></div>
+    <script>
+        var dataset  = [{
+            "name":"IBM",
+            "value":5
+        },{
+            "name":"BMC",
+            "value":10
+        },{
+            "name":"Oracle",
+            "value":13
+        },{
+            "name":"HP",
+            "value":19
+        },{
+            "name":"CISCO",
+            "value":21
+        },{
+            "name":"UINNOVA",
+            "value":25
+        },{
+            "name":"JOYWINTECH",
+            "value":22
+        }];
+
+
+        var piegram = new UCHART.upieb();
+        piegram.setCircle(false);//是否生成圆环
+        piegram.bindData(dataset);
+        piegram.setType(0);
+        piegram.setSize(600,400);
+        piegram.setTitle("分数统计");
+        piegram.setIcon(true);
+        piegram.createRender("id","render");
+        piegram.draw();
+
+
+        setInterval(function () {
+            for(var i = 0 ; i < 7 ; i++){
+                dataset[i].value = Math.floor(Math.random() * 100);
+            }
+            piegram.update(dataset);
+        },2000);
+
+    </script>
+</body>
+</html>

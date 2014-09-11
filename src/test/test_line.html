@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="lib/jquery-2.1.0.min.js"></script>
+    <script src="lib/d3.min.js"></script>
+    <script src="js/register.js"></script>
+    <script src="lang/zh-cn/zh-cn.js"></script>
+    <script src="config/config.js"></script>
+    <script src="chartsrc/ucommon.js"></script>
+    <script src="chartsrc/uline_basic.js"></script>
+    <script src="js/init.js"></script>
+    <style type="text/css">
+        body{
+            font: 12px sans-serif;
+            background-color: #333;
+        }
+        .h_bartext{
+            fill: white;
+            text-anchor: middle;
+        }
+        .h_bartitle{
+            font-size: 16px;
+            text-anchor: middle;
+        }
+        .h_axis path,.h_axis line{
+            fill: none;
+            stroke: grey;
+            shape-rendering: crispEdges;
+        }
+        .h_axis text{
+            fill: #ffffee;
+        }
+        .linestyle{
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1px;
+        }
+        .linetext{
+            font-size: 11px;
+            fill: #ccc;
+        }
+    </style>
+</head>
+<body id="tbody">
+<script>
+    var data2 = [{
+        "name":"北京",
+        "values":[{
+            "date":"2011-10-01 12:48:01",
+            "value":23.1
+        },{
+            "date":"2011-10-01 12:48:02",
+            "value":24.1
+        },{
+            "date":"2011-10-01 12:48:03",
+            "value":43.3
+        },{
+            "date":"2011-10-01 12:48:04",
+            "value":23.5
+        },{
+            "date":"2011-10-01 12:48:05",
+            "value":45.1
+        },{
+            "date":"2011-10-01 12:48:06",
+            "value":27.1
+        },{
+            "date":"2011-10-01 12:48:07",
+            "value":42.1
+        },{
+            "date":"2011-10-01 12:48:08",
+            "value":26.1
+        },{
+            "date":"2011-10-01 12:48:09",
+            "value":23.1
+        },{
+            "date":"2011-10-01 12:48:10",
+            "value":24.1
+        },{
+            "date":"2011-10-01 12:48:11",
+            "value":43.3
+        },{
+            "date":"2011-10-01 12:48:12",
+            "value":23.5
+        },{
+            "date":"2011-10-01 12:48:13",
+            "value":45.1
+        },{
+            "date":"2011-10-01 12:48:14",
+            "value":27.1
+        },{
+            "date":"2011-10-01 12:48:15",
+            "value":42.1
+        },{
+            "date":"2011-10-01 12:48:16",
+            "value":26.1
+        }]
+    }];
+
+    var rend2 = document.createElement("div");
+    rend2.setAttribute("id","d3render2");
+
+    var barline2 = new UCHART.uline();
+    barline2.bindData(data2);
+    barline2.setType(0);
+    barline2.setSize(300,300);
+    barline2.setyTicks(5);
+    barline2.setTitle("2012年10月温度趋势图");
+    barline2.setYfixed(0,100);
+    barline2.setLinecategory("linear");
+    barline2.setxAxistitle("");
+    barline2.setyAxistitle("利用率");
+    //barline2.isxAsix(false);
+    //barline2.isyAsix(false);
+    barline2.createRender("jo",rend2);
+    barline2.draw();
+
+    setInterval(function () {
+        var newdata = [];
+        var newobj = {"name":"上海",values:[]};
+        var newobj2 = {"name":"北京",values:[]};
+        for(var i = 0 ; i < 100 ; i++){
+                var obj = {};
+                obj.value = Math.floor(Math.random() * 47);
+                obj.date = "2011-10-01 12:48:"+i;
+                newobj.values.push(obj);
+        }
+        for(var i = 0 ; i < 100 ; i++){
+
+                var obj = {};
+                obj.value = Math.floor(Math.random() * 20);
+                obj.date = "2011-10-01 12:48:"+i;
+                newobj2.values.push(obj);
+        }
+        newdata[0] = newobj;
+        //newdata[1] = newobj2;
+        barline2.updateLine(newdata);
+    },2000);
+
+    var bodyt = document.getElementById("tbody");
+    bodyt.appendChild(rend2);
+</script>
+</body>
+</html>

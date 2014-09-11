@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="lib/jquery-2.1.0.min.js"></script>
+    <script src="lib/d3.min.js"></script>
+    <script src="js/register.js"></script>
+    <script src="lang/zh-cn/zh-cn.js"></script>
+    <script src="config/config.js"></script>
+    <script src="chartsrc/ucommon.js"></script>
+    <script src="chartsrc/ubar_basic.js"></script>
+    <script src="js/init.js"></script>
+    <style type="text/css">
+        body{ font: 12px sans-serif;}
+        .h_bartext{
+            fill: white;
+            text-anchor: middle;
+        }
+        .h_bartitle{
+            font-size: 18px;
+            fill: steelblue;
+            text-anchor: middle;
+        }
+        .h_axis path,.h_axis line{
+            fill: none;
+            stroke: grey;
+            shape-rendering: crispEdges;
+        }
+        .h_axis text{
+            fill: #666;
+        }
+    </style>
+</head>
+<body id="tbody">
+<script>
+    var data2 = [{
+        "name":"IBM",
+        "value":5
+    },{
+        "name":"BMC",
+        "value":10
+    },{
+        "name":"Oracle",
+        "value":13
+    },{
+        "name":"HP",
+        "value":19
+    },{
+        "name":"CISCO",
+        "value":21
+    },{
+        "name":"UINNOVA",
+        "value":25
+    },{
+        "name":"JOYWINTECH",
+        "value":22
+    }];
+
+    var rend2 = document.createElement("div");
+    var rend1 = document.createElement("div");
+    rend2.setAttribute("id","d3render2");
+    rend1.setAttribute("id","d3render1");
+
+
+    var histgram2 = new UCHART.ubarb();
+    histgram2.bindData(data2);
+    histgram2.setType(0);
+    histgram2.setSize(1000,400);
+    histgram2.setTitle("2013季度统计图");
+    histgram2.setyAxistitle("销售数量");
+    histgram2.setxAxistitle("公司名称")
+    histgram2.createRender("jo",rend2);
+    histgram2.draw();
+
+    var histgram1 = new UCHART.ubarb();
+    histgram1.bindData(data2);
+    histgram1.setType(0);
+    histgram1.setSize(1000,400);
+    histgram1.setTitle("2012季度统计图");
+    histgram1.setyAxistitle("销售数量");
+    histgram1.setxAxistitle("公司名称")
+    histgram1.createRender("jo",rend1);
+    histgram1.draw();
+
+    setInterval(function () {
+        for(var i = 0 ; i < 7 ; i++){
+
+            data2[i].value = Math.floor(Math.random() * 150)
+        }
+        histgram2.update(data2);
+        histgram1.update(data2);
+    },2000);
+
+    var bodyt = document.getElementById("tbody");
+    bodyt.appendChild(rend2);
+    bodyt.appendChild(rend1);
+</script>
+</body>
+</html>

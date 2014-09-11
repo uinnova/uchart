@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        svg {
+            font: 10px sans-serif;
+        }
+
+        path {
+            fill: steelblue;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .brush .extent {
+            stroke: #fff;
+            fill-opacity: .125;
+            shape-rendering: crispEdges;
+        }
+        .area1 {
+            fill: green;
+        }
+        .area2 {
+            fill: steelblue;
+        }
+    </style>
+    <script src="lib/d3.min.js"></script>
+    <script src="js/register.js"></script>
+    <script src="chartsrc/ucommon.js"></script>
+    <script src = "chartsrc/ustack_basic.js"></script>
+</head>
+<body>
+    <div id="render"></div>
+    <script>
+        var dataset = [
+                [
+                    {
+                        "name":"Jan 2000",
+                        "value":1394.46
+                    },{
+                    "name":"Feb 2000",
+                    "value":1366.42
+                },{
+                    "name":"Mar 2000",
+                    "value":1498.58
+                },{
+                    "name":"Apr 2000",
+                    "value":1040.94
+                },{
+                    "name":"May 2000",
+                    "value":1228.81
+                },{
+                    "name":"Jun 2000",
+                    "value":1140.84
+                },{
+                    "name":"Jul 2000",
+                    "value":1276.66
+                },{
+                    "name":"Aug 2000",
+                    "value":1498.58
+                },{
+                    "name":"Sep 2000",
+                    "value":1040.94
+                },{
+                    "name":"Oct 2000",
+                    "value":1276.66
+                },{
+                    "name":"Nov 2000",
+                    "value":936.31
+                },{
+                    "name":"Dec 2000",
+                    "value":1008.01
+                }
+                ],[
+            {
+                "name":"Jan 2000",
+                "value":989.82
+            },{
+                "name":"Feb 2000",
+                "value":555.42
+            },{
+                "name":"Mar 2000",
+                "value":666.58
+            },{
+                "name":"Apr 2000",
+                "value":777.94
+            },{
+                "name":"May 2000",
+                "value":888.81
+            },{
+                "name":"Jun 2000",
+                "value":444.82
+            },{
+                "name":"Jul 2000",
+                "value":555.66
+            },{
+                "name":"Aug 2000",
+                "value":666.58
+            },{
+                "name":"Sep 2000",
+                "value":666.94
+            },{
+                "name":"Oct 2000",
+                "value":888.66
+            },{
+                "name":"Nov 2000",
+                "value":333.31
+            },{
+                "name":"Dec 2000",
+                "value":666.82
+            }
+        ]];
+
+
+        var stackgram = new UCHART.ustack();
+        stackgram.setSize(600,400);
+        stackgram.createRender("id","render");
+        stackgram.bindData(dataset);
+        stackgram.setScale();
+        stackgram.draw();
+
+        setInterval(function () {
+            for(var i = 0 ; i < 12 ; i++){
+                for(var j = 0 ; j < dataset.length ; j++ ){
+                    dataset[j][i].value = Math.floor(Math.random() * 500);
+                }
+            }
+            stackgram.update(dataset);
+        },2000);
+
+    </script>
+</body>
+</html>
