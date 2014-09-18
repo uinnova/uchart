@@ -31,10 +31,11 @@
             fill: steelblue;
         }
     </style>
-    <script src="lib/d3.min.js"></script>
-    <script src="js/register.js"></script>
-    <script src="chartsrc/ucommon.js"></script>
-    <script src = "chartsrc/ustack_basic.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="../js/register.js"></script>
+    <script src="../js/ucommon.js"></script>
+    <script src = "../js/ustack_basic.js"></script>-->
+    <script src="../dist/main.js"></script>
 </head>
 <body>
     <div id="render"></div>
@@ -119,7 +120,7 @@
         ]];
 
 
-        var stackgram = new UCHART.ustack();
+        var stackgram = new ustack();
         stackgram.setSize(600,400);
         stackgram.createRender("id","render");
         stackgram.bindData(dataset);

@@ -17,7 +17,7 @@
 
     };
 
-    var USB = self.ustack.prototype = new UCHART.ucommon();
+    var USB = self.ustack.prototype = new ucommon();
 
     USB.setScale = function(){
         var _this = this;
@@ -226,4 +226,4 @@
 
     }
 
-})(portalSpace.reg("UCHART"))
+})(window)

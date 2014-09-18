@@ -14,10 +14,11 @@
             text-anchor: middle;
         }
     </style>
-    <script src="lib/d3.min.js"></script>
-    <script src="js/register.js"></script>
-    <script src="chartsrc/ucommon.js"></script>
-    <script src = "chartsrc/upie_basic.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="../js/register.js"></script>-->
+    <!--<script src="../js/ucommon.js"></script>
+    <script src = "../js/upie_basic.js"></script>-->
+    <script src="../dist/main.js"></script>
 </head>
 <body>
     <div id="render"></div>
@@ -46,7 +47,7 @@
         }];
 
 
-        var piegram = new UCHART.upieb();
+        var piegram = new upieb();
         piegram.setCircle(false);//是否生成圆环
         piegram.bindData(dataset);
         piegram.setType(0);

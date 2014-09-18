@@ -32,7 +32,7 @@
 
     };
 
-    var UPMXP = self.upiemxp.prototype = new UCHART.ucommon();
+    var UPMXP = self.upiemxp.prototype = new ucommon();
 
 
     UPMXP.setCircle = function(flag){
@@ -246,4 +246,4 @@
         },interval);
     }
 
-})(portalSpace.reg("UCHART"));
+})(window);

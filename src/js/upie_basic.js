@@ -27,7 +27,7 @@
         this.sum = 0;
     };
 
-    var UPB = self.upieb.prototype = new UCHART.ucommon();
+    var UPB = self.upieb.prototype = new ucommon();
 
     /***
      * 是饼图还是环形图标志位，true饼图，false环形图
@@ -238,4 +238,4 @@
         this.updatePie(this.arcs);
     }
 
-})(portalSpace.reg("UCHART"));
+})(window);

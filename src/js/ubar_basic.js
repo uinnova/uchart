@@ -10,7 +10,7 @@
     };
 
     //实现从基类继承
-    var UBB = self.ubarb.prototype = new UCHART.ucommon();
+    var UBB = self.ubarb.prototype = new ucommon();
 
     /***
      * 设置x和y的比例
@@ -205,4 +205,4 @@
         }
     }
 
-})(portalSpace.reg("UCHART"));
+})(window);

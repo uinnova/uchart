@@ -25,7 +25,7 @@
 
     };
 
-    var UPP = self.upiep.prototype = new UCHART.ucommon();
+    var UPP = self.upiep.prototype = new ucommon();
 
 
     UPP.setCircle = function(flag){
@@ -198,4 +198,4 @@
         this.updatePre();
     };
 
-})(portalSpace.reg("UCHART"));
+})(window);

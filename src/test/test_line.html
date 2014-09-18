@@ -3,14 +3,14 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script src="lib/jquery-2.1.0.min.js"></script>
-    <script src="lib/d3.min.js"></script>
-    <script src="js/register.js"></script>
+    <script src="../lib/jquery-2.1.0.min.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="js/register.js"></script>
     <script src="lang/zh-cn/zh-cn.js"></script>
-    <script src="config/config.js"></script>
-    <script src="chartsrc/ucommon.js"></script>
-    <script src="chartsrc/uline_basic.js"></script>
-    <script src="js/init.js"></script>
+    <script src="config/config.js"></script>-->
+    <script src="../js/ucommon.js"></script>
+    <script src="../js/uline_basic.js"></script>
+    <!--<script src="js/init.js"></script>-->
     <style type="text/css">
         body{
             font: 12px sans-serif;
@@ -101,7 +101,7 @@
     var rend2 = document.createElement("div");
     rend2.setAttribute("id","d3render2");
 
-    var barline2 = new UCHART.uline();
+    var barline2 = new uline();
     barline2.bindData(data2);
     barline2.setType(0);
     barline2.setSize(300,300);

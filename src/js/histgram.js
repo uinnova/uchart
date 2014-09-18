@@ -402,4 +402,4 @@
         this.createAxis();
     }
 
-})(portalSpace.reg("UCHART"));
+})(window);

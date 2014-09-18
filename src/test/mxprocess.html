@@ -23,16 +23,17 @@
             font-weight: bold;
         }
     </style>
-    <script src="lib/d3.min.js"></script>
-    <script src="js/register.js"></script>
-    <script src="chartsrc/ucommon.js"></script>
-    <script src = "chartsrc/upie_mxprocess.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="js/register.js"></script>-->
+    <!--<script src="../js/ucommon.js"></script>
+    <script src = "../js/upie_mxprocess.js"></script>-->
+    <script src="../dist/main.js"></script>
 </head>
 <body>
 <div id="render"></div>
 <script>
 
-    var piegram = new UCHART.upiemxp();
+    var piegram = new upiemxp();
     piegram.setProcessGround("Apache.svg");
     piegram.setSize(80,80);
     piegram.createRender("id","render");

@@ -41,7 +41,7 @@
         this.yTicks = 0;
     };
 
-    var UL = self.uline.prototype = new UCHART.ucommon();
+    var UL = self.uline.prototype = new ucommon();
 
     /***
      * 格式化接收到的参数中日期
@@ -296,4 +296,4 @@
         this.lcell = this.createLine(this.lgroup);
     }
 
-})(portalSpace.reg("UCHART"));
+})(window);

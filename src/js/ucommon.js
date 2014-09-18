@@ -256,4 +256,4 @@
     };
 
 
-})(portalSpace.reg("UCHART"));
+})(window);

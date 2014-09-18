@@ -23,10 +23,11 @@
             font-weight: bold;
         }
     </style>
-    <script src="lib/d3.min.js"></script>
-    <script src="js/register.js"></script>
-    <script src="chartsrc/ucommon.js"></script>
-    <script src = "chartsrc/upie_precess.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="js/register.js"></script>-->
+    <!--<script src="../js/ucommon.js"></script>
+    <script src = "../js/upie_precess.js"></script>-->
+    <script src="../dist/main.js"></script>
 </head>
 <body>
 <div id="render"></div>
@@ -35,7 +36,7 @@
     var failVal = 100-dataset[0];
     dataset.push(failVal);
 
-    var piegram = new UCHART.upiep();
+    var piegram = new upiep();
     piegram.setCircle(false);//是否生成圆环
     piegram.bindData(dataset);
     piegram.setType(0);
