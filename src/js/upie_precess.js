@@ -111,7 +111,7 @@
         var _this = this;
 
         var gPce = _this.render.append("g").attr("transform","translate("+(_this.w/2)+","+(_this.h/2+10)+")");
-        this.pce = gPce.append("text").text(this.dataset[0]);
+        this.pce = gPce.append("text").text(this.dataset[0] + "%");
         this.pce.attr({
             "text-anchor":"middle"
         }).classed(_this.piestyle.pieText,true);

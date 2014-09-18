@@ -6,7 +6,7 @@ module.exports = function(grunt){
         concat : {
             uportal : {
                 files : {
-                    'dist/main.js':['./js/ucommon.js','./js/number.js','./js/bar.js','./js/uradar_basic.js','./js/ubar_basic.js','./js/uline_basic.js','./js/upie_basic.js','./js/upie_mxprocess.js','./js/upie_precess.js','./js/ustack_basic.js']
+                    'dist/uchart.debug.js':['./js/ucommon.js','./js/number.js','./js/bar.js','./js/uradar_basic.js','./js/ubar_basic.js','./js/uline_basic.js','./js/upie_basic.js','./js/upie_mxprocess.js','./js/upie_precess.js','./js/ustack_basic.js']
                 }
             }
         }

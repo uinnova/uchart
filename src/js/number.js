@@ -47,7 +47,7 @@
      */
     UNB.setScale = function () {
 
-        this.x = d3.scale.ordinal().rangeRoundBands([0, this.w - this.barPadding], .1);
+        this.x = d3.scale.ordinal().rangeRoundBands([0, 200], .1);
 
         this.x.domain(d3.range(this.dataset.length));
 
@@ -62,9 +62,9 @@
 
         this.svg = this.render
             .attr("width", this.w)
-            .attr("height", this.h+this.barPadding)
+            .attr("height", this.h)
             .append("g")
-            .attr("transform", "translate(" + this.barPadding + "," + this.barPadding + ")");
+            .attr("transform", "translate(" + (this.w - 200)/2 + "," + (this.h - 40)/2 + ")");
 
        this.g = this.svg
             .selectAll("g.num")
@@ -87,13 +87,13 @@
 
         this.g.append("rect")
             .attr("width",_this.x.rangeBand())
-            .attr("height",_this.h)
+            .attr("height",40)
             .attr("fill",_this.cfg.bgColor);
 
         this.g.append("text")
             .attr("class", "value")
             .attr("x", function(d,i) { return _this.x.rangeBand()/2 + 3; })
-            .attr("y", _this.h / 2)
+            .attr("y", 40 / 2)
             .attr("dx", -3)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
@@ -133,7 +133,7 @@
      * 更新数字，使用新的数据进行绑定
      * @param d 新传入的数据对象数组
      */
-    UNB.update = function (options,d) {
+    UNB.update = function (d,options) {
         this.dataset = d;
         this.init(options);
         this.setScale();

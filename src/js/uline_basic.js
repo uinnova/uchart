@@ -263,7 +263,7 @@
         return lgs;
     };
 
-    UL.updateLine = function (d) {
+    UL.update = function (d) {
         var _this = this;
         this.dataset = d;
         this.formatDate();

@@ -377,7 +377,7 @@
         });
     };
 
-    URB.update = function(options,data){
+    URB.update = function(data){
         this.dataset = data;
         this.init(options);
         this.updataText();
