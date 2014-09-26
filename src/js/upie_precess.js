@@ -23,10 +23,26 @@
             "pieText":"prebarText"
         }
 
+        this.color = d3.scale.ordinal().range(["green", "gray"]);
+
     };
 
     var UPP = self.upiep.prototype = new ucommon();
 
+    UPP.init = function(options){
+
+        if("undefined" !== typeof options){
+
+            if("undefined" !== typeof options.color){
+                this.color = d3.scale.ordinal().range(options.color);
+            }
+
+
+        }else{
+            options = {};
+        }
+
+    };
 
     UPP.setCircle = function(flag){
         if(typeof flag === "boolean"){
@@ -86,14 +102,13 @@
         var _this = this;
 
            //自定义颜色
-        var color = d3.scale.ordinal()
-            .range(["green", "gray"]);
+        //var color = d3.scale.ordinal().range(["green", "gray"]);
 
         g.each(function(d,i){
             var e = d3.select(this);
             var b = e.append("path");
             b.attr({
-                "fill":color(i),
+                "fill":_this.color(i),
                 "d":_this.arc
             })
                 .each(function(d) { this._current = d; });
@@ -111,7 +126,7 @@
         var _this = this;
 
         var gPce = _this.render.append("g").attr("transform","translate("+(_this.w/2)+","+(_this.h/2+10)+")");
-        this.pce = gPce.append("text").text(this.dataset[0]);
+        this.pce = gPce.append("text").text(this.dataset[0] + "%");
         this.pce.attr({
             "text-anchor":"middle"
         }).classed(_this.piestyle.pieText,true);
@@ -179,7 +194,8 @@
     /**
      * 绘制饼图
      */
-    UPP.draw = function(){
+    UPP.draw = function(options){
+        this.init(options);
         this.setScale();
         this.createGroup();
         this.createPie(this.arcs);

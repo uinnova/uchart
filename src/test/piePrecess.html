@@ -24,10 +24,9 @@
         }
     </style>
     <script src="../lib/d3.min.js"></script>
-    <!--<script src="js/register.js"></script>-->
     <!--<script src="../js/ucommon.js"></script>
     <script src = "../js/upie_precess.js"></script>-->
-    <script src="../dist/main.js"></script>
+    <script src="../dist/uchart.debug.js"></script>
 </head>
 <body>
 <div id="render"></div>
@@ -36,6 +35,11 @@
     var failVal = 100-dataset[0];
     dataset.push(failVal);
 
+    var options = {
+
+        color :["red", "black"]
+    };
+
     var piegram = new upiep();
     piegram.setCircle(false);//是否生成圆环
     piegram.bindData(dataset);
@@ -43,7 +47,7 @@
     piegram.setSize(80,80);
     piegram.setIcon(false);
     piegram.createRender("id","render");
-    piegram.draw();
+    piegram.draw(options);
 
     setInterval(function () {
 

@@ -5,13 +5,9 @@
     <title></title>
     <script src="../lib/jquery-2.1.0.min.js"></script>
     <script src="../lib/d3.min.js"></script>
-    <!--<script src="js/register.js"></script>
-    <script src="lang/zh-cn/zh-cn.js"></script>
-    <script src="config/config.js"></script>
-    <script src="chartsrc/ucommon.js"></script>
-    <script src="chartsrc/bar.js"></script>
-    <script src="js/init.js"></script>-->
-    <script src="../dist/main.js"></script>
+    <!--<script src="../js/ucommon.js"></script>
+    <script src="../js/bar.js"></script>-->
+    <script src="../dist/uchart.debug.js"></script>
     <style type="text/css">
         body {
             font: 10px sans-serif;
@@ -33,10 +29,10 @@
             fill: none;
         }
 
-        .x.axis line {
+        /*.x.axis line {
             stroke: #fff;
             stroke-opacity: .8;
-        }
+        }*/
 
         .y.axis path {
             stroke: black;
@@ -68,6 +64,10 @@
         "value":22
     }];
 
+    var options = {
+        //color:["green", "gray"]
+    };
+
     var rend1 = document.createElement("div");
     rend1.setAttribute("id","d3render1");
 
@@ -78,7 +78,7 @@
     histgram.setSize(1000,400);
     histgram.setTitle("2013季度统计图");
     histgram.createRender("jo",rend1);
-    histgram.draw();
+    histgram.draw(options);
 
 
     setInterval(function () {

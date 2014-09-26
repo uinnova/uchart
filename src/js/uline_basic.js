@@ -43,6 +43,18 @@
 
     var UL = self.uline.prototype = new ucommon();
 
+    UL.init = function(options){
+
+        if("undefined" !== typeof options){
+
+            this.lineColor = options.lineColor || ["#ffffee","red","green"];
+
+        }else{
+            options = {};
+        }
+
+    };
+
     /***
      * 格式化接收到的参数中日期
      * @param f 日期格式，如：20111001 为2011年10月1日，格式为%Y%m%d
@@ -263,7 +275,7 @@
         return lgs;
     };
 
-    UL.updateLine = function (d) {
+    UL.update = function (d) {
         var _this = this;
         this.dataset = d;
         this.formatDate();
@@ -285,7 +297,8 @@
         }
     };
     
-    UL.draw = function () {
+    UL.draw = function (options) {
+        this.init(options);
         this.setScale();
         this.createTitle(this.title);
         this.setAxis();

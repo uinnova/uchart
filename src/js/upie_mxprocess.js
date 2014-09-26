@@ -34,6 +34,19 @@
 
     var UPMXP = self.upiemxp.prototype = new ucommon();
 
+    UPMXP.init = function(options){
+
+        if("undefined" !== typeof options){
+
+            if("undefined" !== typeof options.processColor){
+                this.processColor = options.processColor;
+            }
+
+        }else{
+            options = {};
+        }
+
+    };
 
     UPMXP.setCircle = function(flag){
         if(typeof flag === "boolean"){
@@ -207,7 +220,8 @@
     /**
      * 绘制饼图
      */
-    UPMXP.draw = function(){
+    UPMXP.draw = function(options){
+        this.init(options);
         this.setScale();
         this.createGroup();
         this.createPie(this.arcs);
@@ -226,14 +240,14 @@
         this.updatePre();
     };
 
-    UPMXP.interValcreate = function (i,ciid) {
+    UPMXP.interValcreate = function (i,options,ciid) {
         var interval = 100;
         if(i != "undefined" && typeof i === "number"){
             interval = i;
         }
         var _this = this;
         var dataset = this.dataset = [0,100];
-        this.draw();
+        this.draw(options);
 
         //update
         setInterval(function () {

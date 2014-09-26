@@ -24,20 +24,23 @@
         }
     </style>
     <script src="../lib/d3.min.js"></script>
-    <!--<script src="js/register.js"></script>-->
     <!--<script src="../js/ucommon.js"></script>
     <script src = "../js/upie_mxprocess.js"></script>-->
-    <script src="../dist/main.js"></script>
+    <script src="../dist/uchart.debug.js"></script>
 </head>
 <body>
 <div id="render"></div>
 <script>
 
+    var options = {
+        //processColor:["red","gray"]
+    }
+
     var piegram = new upiemxp();
     piegram.setProcessGround("Apache.svg");
     piegram.setSize(80,80);
     piegram.createRender("id","render");
-    piegram.interValcreate(1000);
+    piegram.interValcreate(1000,options);
 </script>
 </body>
 </html>

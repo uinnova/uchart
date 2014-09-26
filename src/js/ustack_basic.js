@@ -15,9 +15,25 @@
         //建立一个工具函数，来格式化时间
         this.parseDate = d3.time.format("%b %Y").parse;
 
+        this.color = ["green","steelblue"];
+
     };
 
     var USB = self.ustack.prototype = new ucommon();
+
+    USB.init = function(options){
+
+        if("undefined" !== typeof options){
+
+            if("undefined" !== typeof options.color){
+                this.color = options.color;
+            }
+
+        }else{
+            options = {};
+        }
+
+    };
 
     USB.setScale = function(){
         var _this = this;
@@ -115,7 +131,6 @@
             .attr("height", _this.height);
     };
 
-
     USB.createBurshAreaGroup = function(){
         var _this = this;
 
@@ -149,24 +164,9 @@
                 .attr("clip-path", "url(#clip)")//在这里增加一个裁剪层
                 .attr("class","area"+(i+1))
                 .attr("d", _this.area)
-                .attr("fill-opacity",0.5+i/10);
+                .attr("fill-opacity",0.5+i/10)
+                .attr("fill",_this.color[i]);
         });
-
-            /*//添加上面图的图表
-         _this.focus.append("path")
-         .datum(data2)
-         .attr("clip-path", "url(#clip)")//在这里增加一个裁剪层
-         .attr("class","area")
-         .attr("d", _this.area)
-         .attr("fill-opacity",0.6);
-
-         _this.focus.append("path")
-         .attr("clip-path", "url(#clip)")
-         .datum(data1)
-         .attr("class","area1")
-         .attr("d", _this.area)
-         .attr("fill-opacity",0.5);*/
-
     };
 
     USB.createBurshArea = function(){
@@ -209,21 +209,16 @@
         //这里注意，上面图表的数据范围已经变化了，但坐标轴没变化，我们利用call方法来重新绑定一下
     };
 
-
-    USB.draw = function(){
+    USB.draw = function(options){
+        this.init(options);
         this.createAxis();
         this.createAreaGroup();
         this.createArea();
-        //this.createBrush();
-       // this.createBurshAreaGroup();
-       // this.createBurshArea();
-
-    }
+    };
 
     USB.update = function(d){
         this.dataset = d;
         this.updateArea();
-
-    }
+    };
 
 })(window)

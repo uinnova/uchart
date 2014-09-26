@@ -9,7 +9,7 @@
         }
 
         path {
-            fill: steelblue;
+            /*fill: steelblue;*/
         }
 
         .axis path,
@@ -25,17 +25,17 @@
             shape-rendering: crispEdges;
         }
         .area1 {
-            fill: green;
+            /*fill: green;*/
         }
         .area2 {
-            fill: steelblue;
+            /*fill: steelblue;*/
         }
     </style>
     <script src="../lib/d3.min.js"></script>
-    <script src="../js/register.js"></script>
     <!--<script src="../js/ucommon.js"></script>
     <script src = "../js/ustack_basic.js"></script>-->
-    <script src="../dist/main.js"></script>
+    <!--<script src="../dist/uchart.debug.js"></script>-->
+    <script src="../dist/uchart.js"></script>
 </head>
 <body>
     <div id="render"></div>
@@ -119,13 +119,16 @@
             }
         ]];
 
+        var options = {
+            //color :["red","blue"]
+        }
 
         var stackgram = new ustack();
         stackgram.setSize(600,400);
         stackgram.createRender("id","render");
         stackgram.bindData(dataset);
         stackgram.setScale();
-        stackgram.draw();
+        stackgram.draw(options);
 
         setInterval(function () {
             for(var i = 0 ; i < 12 ; i++){

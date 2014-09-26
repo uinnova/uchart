@@ -8,9 +8,11 @@
     <!--<script src="js/register.js"></script>
     <script src="lang/zh-cn/zh-cn.js"></script>
     <script src="config/config.js"></script>-->
-    <script src="../js/ucommon.js"></script>
-    <script src="../js/uline_basic.js"></script>
+    <!--<script src="../js/ucommon.js"></script>
+    <script src="../js/uline_basic.js"></script>-->
     <!--<script src="js/init.js"></script>-->
+    <!--<script src="../dist/uchart.debug.js"></script>-->
+    <script src="../dist/uchart.js"></script>
     <style type="text/css">
         body{
             font: 12px sans-serif;
@@ -98,6 +100,10 @@
         }]
     }];
 
+    var options = {
+        //lineColor : ["red"]
+    };
+
     var rend2 = document.createElement("div");
     rend2.setAttribute("id","d3render2");
 
@@ -114,7 +120,7 @@
     //barline2.isxAsix(false);
     //barline2.isyAsix(false);
     barline2.createRender("jo",rend2);
-    barline2.draw();
+    barline2.draw(options);
 
     setInterval(function () {
         var newdata = [];
@@ -135,7 +141,7 @@
         }
         newdata[0] = newobj;
         //newdata[1] = newobj2;
-        barline2.updateLine(newdata);
+        barline2.update(newdata);
     },2000);
 
     var bodyt = document.getElementById("tbody");

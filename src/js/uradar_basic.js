@@ -21,7 +21,7 @@
             TranslateX: 80,
             TranslateY: 50,
             ExtraWidthX: 100,
-            ExtraWidthY: 100,
+            ExtraWidthY: 200,
             color: d3.scale.category10()
         }
 
@@ -44,11 +44,17 @@
             }
         }
 
-        this.cfg.maxValue = Math.max(this.cfg.maxValue, d3.max(this.dataset, function(i){return d3.max(i.value.map(function(o){return o.value;}))}));
+        /*this.cfg.maxValue = Math.max(this.cfg.maxValue, d3.max(this.dataset, function(i){return d3.max(i.value.map(function(o){return o.value;}))}));
+        this.allAxis = (this.dataset[0].value.map(function(i, j){return i.axis}));
+        this.total = this.allAxis.length;
+        this.radius = this.cfg.factor*Math.min(this.w/2, this.h/2);*/
+    };
+
+    URB.setScale = function(){
+        this.cfg.maxValue = Math.max(0, d3.max(this.dataset, function(i){return d3.max(i.value.map(function(o){return o.value;}))}));
         this.allAxis = (this.dataset[0].value.map(function(i, j){return i.axis}));
         this.total = this.allAxis.length;
         this.radius = this.cfg.factor*Math.min(this.w/2, this.h/2);
-
     };
 
     URB.setContainer = function(){
@@ -278,7 +284,7 @@
             .attr("y", function(d, i){ return i * 20;})
             .attr("width", 10)
             .attr("height", 10)
-            .style("fill", function(d, i){ return _this.color(i);});
+            .style("fill", function(d, i){ return _this.cfg.color(i);});
 
     //Create text next to squares
         legend.selectAll('text')
@@ -305,6 +311,7 @@
 
     URB.draw = function(options){
         this.init(options);
+        this.setScale();
         this.setContainer();
         this.createCircular();
         this.showCirText();
@@ -377,12 +384,11 @@
         });
     };
 
-    URB.update = function(options,data){
+    URB.update = function(data){
         this.dataset = data;
-        this.init(options);
+        this.setScale();
         this.updataText();
         this.updateRader();
-        //this.draw(options);
     };
 
 })(window);

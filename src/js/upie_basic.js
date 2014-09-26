@@ -29,6 +29,21 @@
 
     var UPB = self.upieb.prototype = new ucommon();
 
+    UPB.init = function(options){
+
+        if("undefined" !== typeof options){
+
+            //自定义圆环各部分的颜色，如果不自定义就用d3中的默认的颜色
+            if("undefined" !== typeof options.color){
+                this.color = d3.scale.ordinal().range(options.color);
+            }
+
+        }else{
+            options = {};
+        }
+
+    };
+
     /***
      * 是饼图还是环形图标志位，true饼图，false环形图
      * @param flag
@@ -220,7 +235,8 @@
     /**
      * 绘制饼图
      */
-    UPB.draw = function(){
+    UPB.draw = function(options){
+        this.init(options);
         this.setScale();
         this.createGroup();
         this.createPie(this.arcs);

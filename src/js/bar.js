@@ -16,6 +16,22 @@
     //实现从基类继承
     var UBB = self.ubb.prototype = new ucommon();
 
+    UBB.init = function(options){
+
+        if("undefined" !== typeof options){
+
+            if("undefined" !== typeof options.color) {
+                this.color = d3.scale.ordinal().range(options.color);
+            }
+
+            this.format = options.format || d3.format(",.0f");
+
+        }else{
+            options = {};
+        }
+
+    };
+
     /***
      * 设置x和y的比例
      * 该项必须在bindData后执行，这样才能够绑定最新的数据源以产生坐标
@@ -136,7 +152,8 @@
     /***
      * 绘制柱状图
      */
-    UBB.draw = function () {
+    UBB.draw = function (options) {
+        this.init(options)
         this.setScale();
         this.grp = this.createGroup();
         this.createBar(this.grp);
