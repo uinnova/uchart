@@ -49,6 +49,10 @@
 
             this.lineColor = options.lineColor || ["#ffffee","red","green"];
 
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
         }else{
             options = {};
         }
@@ -207,9 +211,15 @@
      */
     UL.createAxis = function (g) {
         var _this = this;
+
+        var tempThemes = _this.barstyle.axisStyle;
+        if(this.themes){
+            tempThemes += "_" + this.themes;
+        }
+
         if(this.hasxAxis){
             this.xR = g.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(tempThemes,true)
                 .attr({
                     transform: "translate(0," + (_this.h - this.barPadding*2) + ")"
                 })
@@ -225,7 +235,7 @@
         }
         if(this.hasyAxis){
             this.yR = g.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(tempThemes,true)
                 .call(this.yAxis);
             if(_this.yAxistitle != ""){
                 _this.yR.append("text")

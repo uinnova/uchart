@@ -24,6 +24,39 @@
                 this.color = d3.scale.ordinal().range(options.color);
             }
 
+            if("undefined" !== typeof options.title) {
+                this.title = options.title;
+                this.setTitle(this.title);
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
+            if("undefined" !== typeof options.titleColor) {
+                this.titleColor = options.titleColor;
+            }
+
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
             this.format = options.format || d3.format(",.0f");
 
         }else{
@@ -37,7 +70,7 @@
      * 该项必须在bindData后执行，这样才能够绑定最新的数据源以产生坐标
      */
     UBB.setScale = function () {
-        this.x = d3.scale.linear().range([0, this.w - this.barPadding*3]),
+        this.x = d3.scale.linear().range([0, this.w - this.barPadding*3]);
         this.y = d3.scale.ordinal().rangeRoundBands([0, this.h - this.barPadding], .1);
 
         this.xAxis = d3.svg.axis().scale(this.x).orient("top").tickSize(-this.h);
@@ -49,6 +82,7 @@
         this.y.domain(this.dataset.map(function(d) { return d.name; }));
 
     };
+
 
     /***
      * 按照数据创建每个bar的group
@@ -63,11 +97,15 @@
             .append("g")
             .attr("transform", "translate(" + _this.barPadding*2 + "," + _this.barPadding + ")");
 
-        var g = this.svg.selectAll("g.bar")
+        var tempThemes = "bar";
+        if(this.themes){
+            tempThemes += "_" + this.themes;
+        }
+        var g = this.svg.selectAll("g."+tempThemes)
             .data(_this.dataset)
             .enter()
             .append("g")
-            .attr("class", "bar")
+            .attr("class", tempThemes)
             .attr("transform", function(d) { return "translate(0," + _this.y(d.name) + ")"; });
 
         return g;
@@ -131,12 +169,22 @@
      */
     UBB.createAxis = function () {
 
+        var xThemes = "xaxis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        var yThemes = "yaxis";
+        if(this.themes){
+            yThemes += "_" + this.themes;
+        }
+
         this.svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", xThemes)
             .call(this.xAxis);
 
         this.svg.append("g")
-            .attr("class", "y axis")
+            .attr("class", yThemes)
             .call(this.yAxis);
     };
 
@@ -145,8 +193,13 @@
      */
     UBB.updateAxis = function(){
 
-        this.svg.select("g.x.axis").call(this.xAxis);
-        this.svg.select("g.y.axis").call(this.yAxis);
+        var xThemes = "g.xaxis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        this.svg.select(xThemes).call(this.xAxis);
+        //this.svg.select(yThemes).call(this.yAxis);
     };
 
     /***
@@ -155,6 +208,7 @@
     UBB.draw = function (options) {
         this.init(options)
         this.setScale();
+        this.createTitle(this.title);
         this.grp = this.createGroup();
         this.createBar(this.grp);
         this.createAxis();

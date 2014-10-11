@@ -3,12 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script src="../lib/jquery-2.1.0.min.js"></script>
-    <script src="../lib/d3.min.js"></script>
-    <!--<script src="../js/ucommon.js"></script>
-    <script src="../js/ubar_basic.js"></script>-->
-    <script src="../dist/uchart.js"></script>
-    <style type="text/css">
+    <style>
         body{ font: 12px sans-serif;}
         .h_bartext{
             fill: white;
@@ -16,18 +11,35 @@
         }
         .h_bartitle{
             font-size: 18px;
-            fill: steelblue;
+            /*fill: steelblue;*/
             text-anchor: middle;
         }
-        .h_axis path,.h_axis line{
+        .h_axis_default path,.h_axis_default line{
             fill: none;
             stroke: grey;
             shape-rendering: crispEdges;
         }
-        .h_axis text{
+
+        .h_axis_black path,.h_axis_black line{
+            fill: none;
+            stroke: white;
+            shape-rendering: crispEdges;
+        }
+
+        .h_axis_default text{
             fill: #666;
         }
+
+        .h_axis_black text{
+            fill: white;
+        }
     </style>
+    <!--<link href="../css/test.css" rel="stylesheet" />-->
+    <script src="../lib/jquery-2.1.0.min.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="../js/ucommon.js"></script>
+    <script src="../js/ubar_basic.js"></script>-->
+    <script src="../dist/uchart.debug.js"></script>
 </head>
 <body id="tbody">
 <script>
@@ -54,15 +66,29 @@
         "value":22
     }];
 
-    var options = {
-        //color : ["green","red"]
-    }
-
     var rend2 = document.createElement("div");
     var rend1 = document.createElement("div");
     rend2.setAttribute("id","d3render2");
     rend1.setAttribute("id","d3render1");
 
+    var bodyt = document.getElementById("tbody");
+    bodyt.appendChild(rend2);
+    bodyt.appendChild(rend1);
+
+    var options = {
+        //color : ["green","red"]
+        title:"2014季度统计图",
+        //themes:"default"
+        //titleColor:""
+        type:0,
+        barPadding:35
+        //xAxistitle:"sale quantity",
+        //yAxistitle:"company"
+        //data:data2,
+        //size:"1000,400"
+        //render:"id,d3render2"//render只能设置一次，要么用options设置，要么用对象设置createRender
+
+    }
 
     var histgram2 = new ubarb();
     histgram2.bindData(data2);
@@ -72,6 +98,7 @@
     histgram2.setyAxistitle("销售数量");
     histgram2.setxAxistitle("公司名称")
     histgram2.createRender("jo",rend2);
+    histgram2.setThemes("default");
     histgram2.draw(options);
 
     var histgram1 = new ubarb();
@@ -82,7 +109,7 @@
     histgram1.setyAxistitle("销售数量");
     histgram1.setxAxistitle("公司名称")
     histgram1.createRender("jo",rend1);
-    histgram1.draw(options);
+    histgram1.draw();
 
     setInterval(function () {
         for(var i = 0 ; i < 7 ; i++){
@@ -93,9 +120,6 @@
         histgram1.update(data2);
     },2000);
 
-    var bodyt = document.getElementById("tbody");
-    bodyt.appendChild(rend2);
-    bodyt.appendChild(rend1);
 </script>
 </body>
 </html>

@@ -42,6 +42,22 @@
                 this.processColor = options.processColor;
             }
 
+            if("undefined" !== typeof options.processground){
+                this.processground = options.processground;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.fontSize){
+                this.fontSize = options.fontSize;
+            }
+
         }else{
             options = {};
         }
@@ -152,7 +168,7 @@
         this.pce.attr({
             "text-anchor":"middle",
             "font-family":"Arial",
-            "font-size":14,
+            "font-size":this.fontSize?this.fontSize:14,
             "font-weight":"bold",
             "fill":_this.processColor[1]
         });

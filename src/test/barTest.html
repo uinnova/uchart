@@ -3,12 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script src="../lib/jquery-2.1.0.min.js"></script>
-    <script src="../lib/d3.min.js"></script>
-    <!--<script src="../js/ucommon.js"></script>
-    <script src="../js/bar.js"></script>-->
-    <script src="../dist/uchart.debug.js"></script>
-    <style type="text/css">
+    <style>
         body {
             font: 10px sans-serif;
         }
@@ -17,15 +12,47 @@
             fill: steelblue;
         }*/
 
-        .bar text.value {
+        .bgcolor{
+            fill:black;
+        }
+
+        .bar_default text.value {
             fill: white;
         }
 
-        .axis {
+        .bar_black text.value {
+            fill: white;
+        }
+
+        .xaxis_default {
             shape-rendering: crispEdges;
         }
 
-        .axis path {
+        .yaxis_default {
+            shape-rendering: crispEdges;
+        }
+
+        .xaxis_black {
+            shape-rendering: crispEdges;
+        }
+
+        .yaxis_black {
+            shape-rendering: crispEdges;
+        }
+
+        .xaxis_default path {
+            fill: none;
+        }
+
+        .yaxis_default path {
+            fill: none;
+        }
+
+        .xaxis_black path {
+            fill: none;
+        }
+
+        .yaxis_black path {
             fill: none;
         }
 
@@ -34,10 +61,36 @@
             stroke-opacity: .8;
         }*/
 
-        .y.axis path {
+        .xaxis_default text{
+            fill:black;
+        }
+        .xaxis_black text{
+            fill:white;
+        }
+        .yaxis_default path {
             stroke: black;
         }
+
+        .yaxis_black path {
+            stroke: white;
+        }
+        .yaxis_default text{
+            fill: black;
+        }
+        .yaxis_black text{
+            fill: white;
+        }
+        .h_bartitle{
+            font-size: 18px;
+            text-anchor: middle;
+        }
     </style>
+    <script src="../lib/jquery-2.1.0.min.js"></script>
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="../js/ucommon.js"></script>
+    <script src="../js/bar.js"></script>-->
+    <script src="../dist/uchart.debug.js"></script>
+    <!--<link href="../css/bar.css" rel="stylesheet" />-->
 </head>
 <body id="tbody">
 <script>
@@ -66,20 +119,31 @@
 
     var options = {
         //color:["green", "gray"]
+        titleColor:"steelblue",
+        //title:"2013季度统计图",
+        themes :"default",
+        type:0,
+        barPadding:35,
+        size:"800,400"
+        //data:data2,
+        //render:"id,d3render1"
+
     };
 
     var rend1 = document.createElement("div");
     rend1.setAttribute("id","d3render1");
 
+    var bodyt = document.getElementById("tbody");
+    bodyt.appendChild(rend1);
 
     var histgram = new ubb();
     histgram.bindData(data2);
-    histgram.setType(0);
-    histgram.setSize(1000,400);
+    //histgram.setType(0);
+    //histgram.setSize(800,400);
     histgram.setTitle("2013季度统计图");
     histgram.createRender("jo",rend1);
+    histgram.setThemes();
     histgram.draw(options);
-
 
     setInterval(function () {
         for(var i = 0 ; i < 7 ; i++){
@@ -89,8 +153,7 @@
         histgram.update(data2);
     },2000);
 
-    var bodyt = document.getElementById("tbody");
-    bodyt.appendChild(rend1);
+
 </script>
 </body>
 </html>

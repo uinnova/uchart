@@ -32,10 +32,10 @@
         }
     </style>
     <script src="../lib/d3.min.js"></script>
-    <!--<script src="../js/ucommon.js"></script>
-    <script src = "../js/ustack_basic.js"></script>-->
+    <script src="../js/ucommon.js"></script>
+    <script src = "../js/ustack_basic.js"></script>
     <!--<script src="../dist/uchart.debug.js"></script>-->
-    <script src="../dist/uchart.js"></script>
+    <!--<script src="../dist/uchart.js"></script>-->
 </head>
 <body>
     <div id="render"></div>
@@ -131,8 +131,8 @@
         stackgram.draw(options);
 
         setInterval(function () {
-            for(var i = 0 ; i < 12 ; i++){
-                for(var j = 0 ; j < dataset.length ; j++ ){
+            for(var j = 0 ; j < dataset.length ; j++ ){
+                for(var i = 0 ; i < 12 ; i++){
                     dataset[j][i].value = Math.floor(Math.random() * 500);
                 }
             }

@@ -37,6 +37,38 @@
                 this.color = d3.scale.ordinal().range(options.color);
             }
 
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.icon) {
+                if(typeof options.icon === "boolean"){
+                    this.isIcon = options.icon;
+                }
+            }
+
+            if("undefined" !== typeof options.circle) {
+                if(typeof options.circle === "boolean"){
+                    this.circle = options.circle;
+                }
+            }
+
 
         }else{
             options = {};
@@ -64,10 +96,14 @@
         var innerRadius = 0;
         if(!this.circle){
             innerRadius = Math.min(this.w, this.h)/4;
+            //barPadding是饼图和画布四周的距离
+            this.arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius - this.barPadding);
+        }else{
+            //barPadding是饼图和画布四周的距离
+            this.arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius/2);
         }
 
-        //barPadding是饼图和画布四周的距离
-        this.arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius - this.barPadding);
+
     };
 
     /**
@@ -158,7 +194,7 @@
               "y": function (d,i) {
                   return i+11;
               },
-              "font-size":12
+              "font-size":"12px"
         });
 
         return g;

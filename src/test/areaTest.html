@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            font: 10px sans-serif;
+        }
+
+        .axis_default path,
+        .axis_default line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .axis_default text{
+            fill:black;
+        }
+
+        .axis_black text{
+            fill:white;
+        }
+
+        .axis_black path,
+        .axis_black line {
+            fill: none;
+            stroke: white;
+            shape-rendering: crispEdges;
+        }
+
+        .h_bartitle{
+            font-size: 18px;
+            text-anchor: middle;
+        }
+    </style>
+    <!--<link href="../css/area.css" rel="stylesheet" />-->
+    <script src="../lib/d3.min.js"></script>
+    <!--<script src="../js/ucommon.js"></script>
+    <script src = "../js/uarea_basic.js"></script>-->
+    <script src="../dist/uchart.debug.js"></script>
+</head>
+<body>
+<div id="render"></div>
+<script>
+    var dataset1 = [
+        [
+            {
+                "name":"Jan 2000",
+                "value":1394.46
+            },{
+            "name":"Feb 2000",
+            "value":1366.42
+        },{
+            "name":"Mar 2000",
+            "value":1498.58
+        },{
+            "name":"Apr 2000",
+            "value":1040.94
+        },{
+            "name":"May 2000",
+            "value":1228.81
+        },{
+            "name":"Jun 2000",
+            "value":1140.84
+        },{
+            "name":"Jul 2000",
+            "value":1276.66
+        },{
+            "name":"Aug 2000",
+            "value":1498.58
+        },{
+            "name":"Sep 2000",
+            "value":1040.94
+        },{
+            "name":"Oct 2000",
+            "value":1276.66
+        },{
+            "name":"Nov 2000",
+            "value":936.31
+        },{
+            "name":"Dec 2000",
+            "value":1008.01
+        }
+        ],[
+            {
+                "name":"Jan 2000",
+                "value":989.82
+            },{
+                "name":"Feb 2000",
+                "value":555.42
+            },{
+                "name":"Mar 2000",
+                "value":666.58
+            },{
+                "name":"Apr 2000",
+                "value":777.94
+            },{
+                "name":"May 2000",
+                "value":888.81
+            },{
+                "name":"Jun 2000",
+                "value":444.82
+            },{
+                "name":"Jul 2000",
+                "value":555.66
+            },{
+                "name":"Aug 2000",
+                "value":666.58
+            },{
+                "name":"Sep 2000",
+                "value":666.94
+            },{
+                "name":"Oct 2000",
+                "value":888.66
+            },{
+                "name":"Nov 2000",
+                "value":333.31
+            },{
+                "name":"Dec 2000",
+                "value":666.82
+            }
+        ]];
+
+    var dataset = [
+        {
+            "name":"Jan 2000",
+            "value":1400
+        },{
+            "name":"Feb 2000",
+            "value":1366.42
+        },{
+            "name":"Mar 2000",
+            "value":1498.58
+        },{
+            "name":"Apr 2000",
+            "value":1040.94
+        },{
+            "name":"May 2000",
+            "value":1200
+        },{
+            "name":"Jun 2000",
+            "value":1140.84
+        },{
+            "name":"Jul 2000",
+            "value":1600
+        },{
+            "name":"Aug 2000",
+            "value":1498.58
+        },{
+            "name":"Sep 2000",
+            "value":1040.94
+        },{
+            "name":"Oct 2000",
+            "value":1276.66
+        },{
+            "name":"Nov 2000",
+            "value":936.31
+        },{
+            "name":"Dec 2000",
+            "value":1008.01
+        }
+    ];
+
+    var options = {
+        //color :["red","blue"]
+        title:"面积图",
+        //titleColor:"red"
+        themes:"default",
+        type:0,
+        barPadding:35
+        //data:dataset1
+        //size:"600,400"
+        //render:"id,render"//render只能设置一个，要么在options中设置，要不用对象设置createRender
+    }
+
+    var area = new uarea();
+    area.setSize(600,400);
+    area.createRender("id","render");
+    area.bindData(dataset1);
+    area.setThemes("default");
+    area.draw(options);
+
+    setInterval(function () {
+        for(var j = 0 ; j < dataset1.length ; j++ ){
+             for(var i = 0 ; i < 12 ; i++){
+                dataset1[j][i].value = Math.floor(Math.random() * 500);
+            }
+        }
+        area.update(dataset1);
+    },2000);
+
+</script>
+</body>
+</html>

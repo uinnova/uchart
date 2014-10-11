@@ -21,14 +21,13 @@
             TranslateX: 80,
             TranslateY: 50,
             ExtraWidthX: 100,
-            ExtraWidthY: 200,
+            ExtraWidthY: 60,
             color: d3.scale.category10()
         }
 
         this.Format = d3.format('%');
 
         this.tooltip;
-
 
     };
 
@@ -42,6 +41,27 @@
                     this.cfg[i] = options[i];
                 }
             }
+        }
+
+        if("undefined" !== typeof options.themes) {
+            this.setThemes(options.themes);
+        }
+
+        if("undefined" !== typeof options.data) {
+            this.dataset = options.data;
+        }
+
+        if("undefined" !== typeof options.title) {
+            this.title = options.title;
+            this.setTitle(this.title);
+        }
+
+        if("undefined" !== typeof options.titleColor) {
+            this.titleColor = options.titleColor;
+        }
+
+        if("undefined" !== typeof options.size) {
+            this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
         }
 
         /*this.cfg.maxValue = Math.max(this.cfg.maxValue, d3.max(this.dataset, function(i){return d3.max(i.value.map(function(o){return o.value;}))}));
@@ -74,6 +94,12 @@
     //组成每一层圆形的每条线
     URB.createCircular = function(){
         var _this = this;
+
+        var xThemes = "line";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
         for(var j=0; j < _this.cfg.levels; j++){
             var levelFactor = _this.cfg.factor * _this.radius * ((j+1) / _this.cfg.levels);
             _this.g.selectAll(".levels")
@@ -84,17 +110,23 @@
                 .attr("y1", function(d, i){return levelFactor*(1-_this.cfg.factor*Math.cos(i*_this.cfg.radians/_this.total));})
                 .attr("x2", function(d, i){return levelFactor*(1-_this.cfg.factor*Math.sin((i+1)*_this.cfg.radians/_this.total));})
                 .attr("y2", function(d, i){return levelFactor*(1-_this.cfg.factor*Math.cos((i+1)*_this.cfg.radians/_this.total));})
-                .attr("class", "line")
-                .style("stroke", "grey")
+                .attr("class", xThemes)
+               // .style("stroke", "grey")
                 .style("stroke-opacity", "0.75")
                 .style("stroke-width", "0.3px")
                 .attr("transform", "translate(" + (_this.w/2 - levelFactor) + ", " + (_this.h/2 - levelFactor) + ")");
         }
-    }
+    };
 
     //每层圆形的标值 10% 20% 30%。。。
     URB.showCirText = function(){
         var _this = this;
+
+        var lineThemes = "cirtext";
+        if(this.themes){
+            lineThemes += "_" + this.themes;
+        }
+
         for(var j=0; j < _this.cfg.levels; j++){
             var levelFactor = _this.cfg.factor * _this.radius*((j+1)/_this.cfg.levels);
             _this.g.selectAll(".levels")
@@ -103,23 +135,29 @@
                 .append("svg:text")
                 .attr("x", function(d){return levelFactor*(1- _this.cfg.factor*Math.sin(0));})
                 .attr("y", function(d){return levelFactor*(1- _this.cfg.factor*Math.cos(0));})
-                .attr("class", "cirtext")
+                .attr("class", lineThemes)
                 .style("font-family", "sans-serif")
                 .style("font-size", "10px")
                 .attr("transform", "translate(" + (_this.w/2-levelFactor + _this.cfg.ToRight)
                     + ", " + (_this.h/2 - levelFactor) + ")")
-                .attr("fill", "#737373")
+                //.attr("fill", "#737373")
                 .text(_this.Format((j+1) * _this.cfg.maxValue/_this.cfg.levels));
         }
     };
 
     URB.createAixs = function(){
         var _this = this;
-        var axis = _this.g.selectAll(".axis")
+
+        var xThemes = "axis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        var axis = _this.g.selectAll("."+xThemes)
             .data(_this.allAxis)
             .enter()
             .append("g")
-            .attr("class", "axis");
+            .attr("class", xThemes);
 
         //画出从圆心到最外边的每一段线
         axis.append("line")
@@ -128,7 +166,7 @@
             .attr("x2", function(d, i){return _this.w/2*(1 - _this.cfg.factor*Math.sin(i * _this.cfg.radians/_this.total));})
             .attr("y2", function(d, i){return _this.h/2*(1 - _this.cfg.factor*Math.cos(i*_this.cfg.radians/_this.total));})
             .attr("class", "line")
-            .style("stroke", "grey")
+            //.style("stroke", "grey")
             .style("stroke-width", "1px");
 
         //在圆形外边画出每个axis的值
@@ -264,13 +302,18 @@
         var _this = this;
         _this.setLegendOptions();
 
+        var legendThemes = "legend";
+        if(this.themes){
+            legendThemes += "_" + this.themes;
+        }
+
         var svg = _this.render
             .append('svg')
             .attr("width", _this.w+300)
             .attr("height", _this.h);
 
         var legend = svg.append("g")
-                .attr("class", "legend")
+                .attr("class", legendThemes)
                 .attr("height", 100)
                 .attr("width", 200)
                 .attr('transform', 'translate(90,20)');
@@ -294,7 +337,7 @@
             .attr("x", _this.w - 52)
             .attr("y", function(d, i){ return i * 20 + 9;})
             .attr("font-size", "11px")
-            .attr("fill", "#737373")
+            //.attr("fill", "#737373")
             .text(function(d) { return d; })
         ;
 
@@ -378,7 +421,12 @@
     URB.updataText = function(){
         var _this = this;
 
-        var cirtext = _this.g.selectAll('.cirtext');
+        var lineThemes = "cirtext";
+        if(this.themes){
+            lineThemes += "_" + this.themes;
+        }
+
+        var cirtext = _this.g.selectAll('.'+lineThemes);
         cirtext.each(function(d,i){
             d3.select(this).text(_this.Format((i+1) * _this.cfg.maxValue/_this.cfg.levels));
         });

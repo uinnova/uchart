@@ -21,6 +21,47 @@
                 this.color = d3.scale.ordinal().range(options.color);
             }
 
+            if("undefined" !== typeof options.title) {
+                this.title = options.title;
+                this.setTitle(this.title);
+            }
+
+            if("undefined" !== typeof options.titleColor) {
+                this.titleColor = options.titleColor;
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.xAxistitle) {
+                this.xAxistitle = options.xAxistitle;
+            }
+
+            if("undefined" !== typeof options.yAxistitle) {
+                this.yAxistitle = options.yAxistitle;
+            }
+
         }else{
             options = {};
         }
@@ -145,10 +186,16 @@
      */
     UBB.createAxis = function () {
         var _this = this;
+
+        var xThemes = _this.barstyle.axisStyle;
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
         if(this.hasxAxis){
             //this.xAxis = d3.svg.axis().scale(this.xScale).orient("bottom");
             this.xR = this.render.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(xThemes,true)
                 .attr({
                     transform: "translate(" + _this.yAxisPadding +"," + (_this.h - _this.xAxisPadding) + ")"
                 })
@@ -167,7 +214,7 @@
         if(this.hasyAxis){
             //this.yAxis = d3.svg.axis().scale(this.yScale).orient("left");
             this.yR = this.render.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(xThemes,true)
                 .attr({
                     transform: "translate(" + _this.yAxisPadding +"," + (_this.yAxisPadding - _this.xAxisPadding - _this.titlePadding) + ")"
                 })

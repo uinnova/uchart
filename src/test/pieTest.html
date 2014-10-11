@@ -6,12 +6,18 @@
     <style>
         .h_bartitle{
             font-size: 18px;
-            fill: steelblue;
+            /*fill: steelblue;*/
             text-anchor: middle;
         }
         .h_bartext{
             fill: white;
             text-anchor: middle;
+        }
+        .len_default text{
+            fill:black
+        }
+        .len_black text{
+            fill:white
         }
     </style>
     <script src="../lib/d3.min.js"></script>
@@ -47,6 +53,16 @@
 
         var options = {
             //color :["green","gray","red","black","orange","pink","blue"]
+            //themes:"default"
+            //data:dataset,
+            //type:0,
+            //size:"600,400",
+            //render:"id,render",
+            //size与render只能写在options里或者用对象设置，不可一个把size写在options里，render用对象设置，
+            // 因为如果用对象设置render时size还没有设置，此时render已经创建了
+            //title:"分数统计",
+            //titleColor:"steelblue",
+            //icon:true
         }
 
 
@@ -58,6 +74,7 @@
         piegram.setTitle("分数统计");
         piegram.setIcon(true);
         piegram.createRender("id","render");
+        piegram.setThemes("default");
         piegram.draw(options);
 
 

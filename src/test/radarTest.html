@@ -8,6 +8,49 @@
     <!--<script src="../js/ucommon.js"></script>
     <script src = "../js/uradar_basic.js"></script>-->
     <script src="../dist/uchart.debug.js"></script>
+    <style>
+        .axis_default line{
+            stroke:grey;
+        }
+
+        .axis_default text{
+            fill:black;
+        }
+
+        .axis_black text{
+            fill:white;
+        }
+
+        .axis_black line{
+            stroke:white;
+        }
+
+        .line_default{
+            stroke:grey;
+        }
+
+        .line_black{
+            stroke:white;
+        }
+
+        .cirtext_default{
+            fill:#737373
+        }
+
+        .cirtext_black{
+            fill:white
+        }
+
+        .legend_default text{
+            fill:#737373
+        }
+
+        .legend_black text{
+            fill:white
+        }
+
+
+    </style>
 </head>
 <body>
     <div id="render"></div>
@@ -42,16 +85,22 @@
         var options = {
             maxValue: 0.6,
             levels: 6,
-            ExtraWidthX: 200/*,
-            color:d3.scale.ordinal().range(["green","blue"])*/
+            ExtraWidthX: 150,
+            /*color:d3.scale.ordinal().range(["green","blue"])*/
+            themes:"default",
+            data:data,
+            type:0,
+            title:"手机与电脑使用统计",
+            titleColor:"steelblue",
+            size:"500,500"
         };
 
         var radar = new uradarb();
         radar.createRender("id","render");
-        radar.bindData(data);
-        radar.setType(0);
-        radar.setTitle("手机与电脑使用统计");
-        radar.setSize(500,500);
+        //radar.bindData(data);
+        //radar.setType(0);
+        //radar.setTitle("手机与电脑使用统计");
+        //radar.setSize(500,500);
         radar.draw(options);
         radar.createLegend();
 

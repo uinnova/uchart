@@ -30,6 +30,22 @@
 
             this.fontSize = options.fontSize || "24px";
 
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
             /*for(var i in options){
                 if('undefined' !== typeof options[i]){
                     this.cfg[i] = options[i];
@@ -93,6 +109,13 @@
      */
     UNB.createBar = function () {
         var _this = this;
+        if(!this.themes || this.themes === "default"){
+            _this.bgColor = "black";
+            _this.numberColor = "white";
+        }else{
+            _this.bgColor = "white";
+            _this.numberColor = "black";
+        }
 
         this.g.append("rect")
             .attr("width",_this.x.rangeBand())

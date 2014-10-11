@@ -11,8 +11,7 @@
     <!--<script src="../js/ucommon.js"></script>
     <script src="../js/uline_basic.js"></script>-->
     <!--<script src="js/init.js"></script>-->
-    <!--<script src="../dist/uchart.debug.js"></script>-->
-    <script src="../dist/uchart.js"></script>
+    <script src="../dist/uchart.debug.js"></script>
     <style type="text/css">
         body{
             font: 12px sans-serif;
@@ -26,14 +25,26 @@
             font-size: 16px;
             text-anchor: middle;
         }
-        .h_axis path,.h_axis line{
+        .h_axis_default path,.h_axis_default line{
             fill: none;
             stroke: grey;
             shape-rendering: crispEdges;
         }
-        .h_axis text{
+
+        .h_axis_black path,.h_axis_black line{
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .h_axis_default text{
             fill: #ffffee;
         }
+
+        .h_axis_black text{
+            fill: black;
+        }
+
         .linestyle{
             fill: none;
             stroke: steelblue;
@@ -102,6 +113,7 @@
 
     var options = {
         //lineColor : ["red"]
+        themes:"default"
     };
 
     var rend2 = document.createElement("div");

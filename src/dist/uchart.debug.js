@@ -62,16 +62,17 @@
         //如果显示y轴，则在画布的最左侧留出20px的宽度
         this.yAxisPadding = 30;
         //设置标题栏颜色
-        this.titleColor = "#ffffff"
+        this.titleColor = "steelblue";
+        this.themes = "default";
     };
 
-    var HS = self.ucommon.prototype;
+    var UC = self.ucommon.prototype;
 
     /***
      * 设置柱状图尺寸类型
      * @param t 类型: 0-4
      */
-    HS.setType = function (t) {
+    UC.setType = function (t) {
         if(typeof  t === "number"){
 
             this.type = t;
@@ -84,7 +85,7 @@
      * 设置坐标轴样式
      * @param v
      */
-    HS.setAxisStyle = function(v){
+    UC.setAxisStyle = function(v){
         this.barstyle["axisStyle"] = v;
     };
 
@@ -93,16 +94,16 @@
      * @param w 宽
      * @param h 高
      */
-    HS.setSize = function (w,h) {
+    UC.setSize = function (w,h) {
         if(this.type > 0 && this.type <= 4){
             this.w = this.sizearray[this.type - 1][0];
             this.h = this.sizearray[this.type - 1][1];
         }
         else if(this.type == 0){
             if(typeof w === "number" && typeof h === "number"){
-
                 this.w = w;
                 this.h = h;
+
             }else{
                 console.log("图表尺寸只能够接受数字类型,系统已经将数据类型设置为默认500*300大小");
             }
@@ -115,7 +116,7 @@
      * 设置图标的标题
      * @param t
      */
-    HS.setTitle = function (t) {
+    UC.setTitle = function (t) {
         this.title = t;
     };
 
@@ -123,7 +124,7 @@
      * 设置是否显示横坐标即X轴
      * @param x true/fase
      */
-    HS.isxAsix = function (x) {
+    UC.isxAsix = function (x) {
         if(typeof x === "boolean"){
 
             this.hasxAxis = x;
@@ -134,7 +135,7 @@
      * 设置是否显示纵坐标即Y轴
      * @param y true/fase
      */
-    HS.isyAsix = function (y) {
+    UC.isyAsix = function (y) {
         if(typeof y === "boolean"){
 
             this.hasyAxis = y;
@@ -145,7 +146,7 @@
      * 设置x轴标题
      * @param t
      */
-    HS.setxAxistitle = function (t) {
+    UC.setxAxistitle = function (t) {
         if(t != "" && t != null && typeof t ==="string"){
             this.xAxistitle = t;
         }
@@ -155,7 +156,7 @@
      * 设置y轴标题
      * @param t
      */
-    HS.setyAxistitle = function (t) {
+    UC.setyAxistitle = function (t) {
         if(t != "" && t != null && typeof t ==="string"){
             this.yAxistitle = t;
         }
@@ -165,7 +166,7 @@
      * 设置图标标题颜色
      * @param t
      */
-    HS.setTitleColor = function (t) {
+    UC.setTitleColor = function (t) {
         if(typeof t === "string"){
             this.titleColor = t;
         }
@@ -177,7 +178,7 @@
      * @param r 对应的被选择对象的值。
      * @returns {void|*}
      */
-    HS.createRender = function (t,r) {
+    UC.createRender = function (t,r) {
         if(t == "jo"){
             this.render = this._setRendsize(d3.select(r).append("svg"),this.w,this.h);
             return this.render;
@@ -199,7 +200,7 @@
      * @param h 设置的高
      * @returns {*}
      */
-    HS._setRendsize = function (o,w,h){
+    UC._setRendsize = function (o,w,h){
         o.attr({
             width: w,
             height: h
@@ -211,7 +212,7 @@
      * 绑定外部数据源
      * @param d 外部数据源，是一个JavaScript object
      */
-    HS.bindData = function (d) {
+    UC.bindData = function (d) {
         if(typeof d === "object"){
 
             this.dataset = d;
@@ -224,7 +225,7 @@
      * 返回是否显示title，用于后续的尺寸判断
      * @returns {boolean}
      */
-    HS.hasTtile = function () {
+    UC.hasTtile = function () {
         var rtn = false;
         if(this.title != "" && this.title != null && typeof this.title != "undefined"){
             rtn = true;
@@ -232,7 +233,7 @@
         return rtn;
     };
 
-    HS.setBarpadding = function (b) {
+    UC.setBarpadding = function (b) {
         if(typeof b === "number"){
             this.barPadding = b;
         }
@@ -241,7 +242,7 @@
     /***
      * 创建title并设置显示位置等属性
      */
-    HS.createTitle = function () {
+    UC.createTitle = function () {
         var _this = this;
         if(this.hasTtile()){
 
@@ -252,6 +253,12 @@
                 y: 20,
                 fill:this.titleColor
             })
+        }
+    };
+
+    UC.setThemes = function (t) {
+        if(t){
+            this.themes = t;
         }
     };
 
@@ -288,6 +295,22 @@
             this.bgColor = options.bgColor || "blue";
 
             this.fontSize = options.fontSize || "24px";
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
 
             /*for(var i in options){
                 if('undefined' !== typeof options[i]){
@@ -352,6 +375,13 @@
      */
     UNB.createBar = function () {
         var _this = this;
+        if(!this.themes || this.themes === "default"){
+            _this.bgColor = "black";
+            _this.numberColor = "white";
+        }else{
+            _this.bgColor = "white";
+            _this.numberColor = "black";
+        }
 
         this.g.append("rect")
             .attr("width",_this.x.rangeBand())
@@ -436,6 +466,39 @@
                 this.color = d3.scale.ordinal().range(options.color);
             }
 
+            if("undefined" !== typeof options.title) {
+                this.title = options.title;
+                this.setTitle(this.title);
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
+            if("undefined" !== typeof options.titleColor) {
+                this.titleColor = options.titleColor;
+            }
+
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
             this.format = options.format || d3.format(",.0f");
 
         }else{
@@ -449,7 +512,7 @@
      * 该项必须在bindData后执行，这样才能够绑定最新的数据源以产生坐标
      */
     UBB.setScale = function () {
-        this.x = d3.scale.linear().range([0, this.w - this.barPadding*3]),
+        this.x = d3.scale.linear().range([0, this.w - this.barPadding*3]);
         this.y = d3.scale.ordinal().rangeRoundBands([0, this.h - this.barPadding], .1);
 
         this.xAxis = d3.svg.axis().scale(this.x).orient("top").tickSize(-this.h);
@@ -461,6 +524,7 @@
         this.y.domain(this.dataset.map(function(d) { return d.name; }));
 
     };
+
 
     /***
      * 按照数据创建每个bar的group
@@ -475,11 +539,15 @@
             .append("g")
             .attr("transform", "translate(" + _this.barPadding*2 + "," + _this.barPadding + ")");
 
-        var g = this.svg.selectAll("g.bar")
+        var tempThemes = "bar";
+        if(this.themes){
+            tempThemes += "_" + this.themes;
+        }
+        var g = this.svg.selectAll("g."+tempThemes)
             .data(_this.dataset)
             .enter()
             .append("g")
-            .attr("class", "bar")
+            .attr("class", tempThemes)
             .attr("transform", function(d) { return "translate(0," + _this.y(d.name) + ")"; });
 
         return g;
@@ -543,12 +611,22 @@
      */
     UBB.createAxis = function () {
 
+        var xThemes = "xaxis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        var yThemes = "yaxis";
+        if(this.themes){
+            yThemes += "_" + this.themes;
+        }
+
         this.svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", xThemes)
             .call(this.xAxis);
 
         this.svg.append("g")
-            .attr("class", "y axis")
+            .attr("class", yThemes)
             .call(this.yAxis);
     };
 
@@ -557,8 +635,13 @@
      */
     UBB.updateAxis = function(){
 
-        this.svg.select("g.x.axis").call(this.xAxis);
-        this.svg.select("g.y.axis").call(this.yAxis);
+        var xThemes = "g.xaxis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        this.svg.select(xThemes).call(this.xAxis);
+        //this.svg.select(yThemes).call(this.yAxis);
     };
 
     /***
@@ -567,6 +650,7 @@
     UBB.draw = function (options) {
         this.init(options)
         this.setScale();
+        this.createTitle(this.title);
         this.grp = this.createGroup();
         this.createBar(this.grp);
         this.createAxis();
@@ -608,14 +692,13 @@
             TranslateX: 80,
             TranslateY: 50,
             ExtraWidthX: 100,
-            ExtraWidthY: 200,
+            ExtraWidthY: 60,
             color: d3.scale.category10()
         }
 
         this.Format = d3.format('%');
 
         this.tooltip;
-
 
     };
 
@@ -629,6 +712,27 @@
                     this.cfg[i] = options[i];
                 }
             }
+        }
+
+        if("undefined" !== typeof options.themes) {
+            this.setThemes(options.themes);
+        }
+
+        if("undefined" !== typeof options.data) {
+            this.dataset = options.data;
+        }
+
+        if("undefined" !== typeof options.title) {
+            this.title = options.title;
+            this.setTitle(this.title);
+        }
+
+        if("undefined" !== typeof options.titleColor) {
+            this.titleColor = options.titleColor;
+        }
+
+        if("undefined" !== typeof options.size) {
+            this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
         }
 
         /*this.cfg.maxValue = Math.max(this.cfg.maxValue, d3.max(this.dataset, function(i){return d3.max(i.value.map(function(o){return o.value;}))}));
@@ -661,6 +765,12 @@
     //组成每一层圆形的每条线
     URB.createCircular = function(){
         var _this = this;
+
+        var xThemes = "line";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
         for(var j=0; j < _this.cfg.levels; j++){
             var levelFactor = _this.cfg.factor * _this.radius * ((j+1) / _this.cfg.levels);
             _this.g.selectAll(".levels")
@@ -671,17 +781,23 @@
                 .attr("y1", function(d, i){return levelFactor*(1-_this.cfg.factor*Math.cos(i*_this.cfg.radians/_this.total));})
                 .attr("x2", function(d, i){return levelFactor*(1-_this.cfg.factor*Math.sin((i+1)*_this.cfg.radians/_this.total));})
                 .attr("y2", function(d, i){return levelFactor*(1-_this.cfg.factor*Math.cos((i+1)*_this.cfg.radians/_this.total));})
-                .attr("class", "line")
-                .style("stroke", "grey")
+                .attr("class", xThemes)
+               // .style("stroke", "grey")
                 .style("stroke-opacity", "0.75")
                 .style("stroke-width", "0.3px")
                 .attr("transform", "translate(" + (_this.w/2 - levelFactor) + ", " + (_this.h/2 - levelFactor) + ")");
         }
-    }
+    };
 
     //每层圆形的标值 10% 20% 30%。。。
     URB.showCirText = function(){
         var _this = this;
+
+        var lineThemes = "cirtext";
+        if(this.themes){
+            lineThemes += "_" + this.themes;
+        }
+
         for(var j=0; j < _this.cfg.levels; j++){
             var levelFactor = _this.cfg.factor * _this.radius*((j+1)/_this.cfg.levels);
             _this.g.selectAll(".levels")
@@ -690,23 +806,29 @@
                 .append("svg:text")
                 .attr("x", function(d){return levelFactor*(1- _this.cfg.factor*Math.sin(0));})
                 .attr("y", function(d){return levelFactor*(1- _this.cfg.factor*Math.cos(0));})
-                .attr("class", "cirtext")
+                .attr("class", lineThemes)
                 .style("font-family", "sans-serif")
                 .style("font-size", "10px")
                 .attr("transform", "translate(" + (_this.w/2-levelFactor + _this.cfg.ToRight)
                     + ", " + (_this.h/2 - levelFactor) + ")")
-                .attr("fill", "#737373")
+                //.attr("fill", "#737373")
                 .text(_this.Format((j+1) * _this.cfg.maxValue/_this.cfg.levels));
         }
     };
 
     URB.createAixs = function(){
         var _this = this;
-        var axis = _this.g.selectAll(".axis")
+
+        var xThemes = "axis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        var axis = _this.g.selectAll("."+xThemes)
             .data(_this.allAxis)
             .enter()
             .append("g")
-            .attr("class", "axis");
+            .attr("class", xThemes);
 
         //画出从圆心到最外边的每一段线
         axis.append("line")
@@ -715,7 +837,7 @@
             .attr("x2", function(d, i){return _this.w/2*(1 - _this.cfg.factor*Math.sin(i * _this.cfg.radians/_this.total));})
             .attr("y2", function(d, i){return _this.h/2*(1 - _this.cfg.factor*Math.cos(i*_this.cfg.radians/_this.total));})
             .attr("class", "line")
-            .style("stroke", "grey")
+            //.style("stroke", "grey")
             .style("stroke-width", "1px");
 
         //在圆形外边画出每个axis的值
@@ -851,13 +973,18 @@
         var _this = this;
         _this.setLegendOptions();
 
+        var legendThemes = "legend";
+        if(this.themes){
+            legendThemes += "_" + this.themes;
+        }
+
         var svg = _this.render
             .append('svg')
             .attr("width", _this.w+300)
             .attr("height", _this.h);
 
         var legend = svg.append("g")
-                .attr("class", "legend")
+                .attr("class", legendThemes)
                 .attr("height", 100)
                 .attr("width", 200)
                 .attr('transform', 'translate(90,20)');
@@ -881,7 +1008,7 @@
             .attr("x", _this.w - 52)
             .attr("y", function(d, i){ return i * 20 + 9;})
             .attr("font-size", "11px")
-            .attr("fill", "#737373")
+            //.attr("fill", "#737373")
             .text(function(d) { return d; })
         ;
 
@@ -965,7 +1092,12 @@
     URB.updataText = function(){
         var _this = this;
 
-        var cirtext = _this.g.selectAll('.cirtext');
+        var lineThemes = "cirtext";
+        if(this.themes){
+            lineThemes += "_" + this.themes;
+        }
+
+        var cirtext = _this.g.selectAll('.'+lineThemes);
         cirtext.each(function(d,i){
             d3.select(this).text(_this.Format((i+1) * _this.cfg.maxValue/_this.cfg.levels));
         });
@@ -1000,6 +1132,47 @@
             //options.color为各柱状图中柱子的颜色数组，如["green","red","blue"...]
             if("undefined" !== typeof options.color){
                 this.color = d3.scale.ordinal().range(options.color);
+            }
+
+            if("undefined" !== typeof options.title) {
+                this.title = options.title;
+                this.setTitle(this.title);
+            }
+
+            if("undefined" !== typeof options.titleColor) {
+                this.titleColor = options.titleColor;
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.xAxistitle) {
+                this.xAxistitle = options.xAxistitle;
+            }
+
+            if("undefined" !== typeof options.yAxistitle) {
+                this.yAxistitle = options.yAxistitle;
             }
 
         }else{
@@ -1126,10 +1299,16 @@
      */
     UBB.createAxis = function () {
         var _this = this;
+
+        var xThemes = _this.barstyle.axisStyle;
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
         if(this.hasxAxis){
             //this.xAxis = d3.svg.axis().scale(this.xScale).orient("bottom");
             this.xR = this.render.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(xThemes,true)
                 .attr({
                     transform: "translate(" + _this.yAxisPadding +"," + (_this.h - _this.xAxisPadding) + ")"
                 })
@@ -1148,7 +1327,7 @@
         if(this.hasyAxis){
             //this.yAxis = d3.svg.axis().scale(this.yScale).orient("left");
             this.yR = this.render.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(xThemes,true)
                 .attr({
                     transform: "translate(" + _this.yAxisPadding +"," + (_this.yAxisPadding - _this.xAxisPadding - _this.titlePadding) + ")"
                 })
@@ -1252,6 +1431,10 @@
         if("undefined" !== typeof options){
 
             this.lineColor = options.lineColor || ["#ffffee","red","green"];
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
 
         }else{
             options = {};
@@ -1411,9 +1594,15 @@
      */
     UL.createAxis = function (g) {
         var _this = this;
+
+        var tempThemes = _this.barstyle.axisStyle;
+        if(this.themes){
+            tempThemes += "_" + this.themes;
+        }
+
         if(this.hasxAxis){
             this.xR = g.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(tempThemes,true)
                 .attr({
                     transform: "translate(0," + (_this.h - this.barPadding*2) + ")"
                 })
@@ -1429,7 +1618,7 @@
         }
         if(this.hasyAxis){
             this.yR = g.append("g")
-                .classed(_this.barstyle.axisStyle,true)
+                .classed(tempThemes,true)
                 .call(this.yAxis);
             if(_this.yAxistitle != ""){
                 _this.yR.append("text")
@@ -1554,6 +1743,39 @@
                 this.color = d3.scale.ordinal().range(options.color);
             }
 
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.title) {
+                this.title = options.title;
+                this.setTitle(this.title);
+            }
+
+            if("undefined" !== typeof options.titleColor) {
+                this.titleColor = options.titleColor;
+            }
+
+            if("undefined" !== typeof options.icon) {
+                this.isIcon = options.icon;
+            }
+
         }else{
             options = {};
         }
@@ -1671,6 +1893,16 @@
     UPB.createLenGroup = function(){
         var _this = this;
 
+        var xThemes = "g.len";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        var yThemes = "len";
+        if(this.themes){
+            yThemes += "_" + this.themes;
+        }
+
         var pt = 0;
         this.dataset.forEach(function (d) {
             pt += d.value;
@@ -1678,9 +1910,9 @@
         var g = _this.render.append("g").
             attr("transform","translate("+(((_this.w/2 - this.baroffset) + (_this.h/2 - _this.barPadding)) + 10)+","+(this.barPadding + 10)+")");
 
-        var len = g.selectAll("g.len").data(this.dataset).enter().
+        var len = g.selectAll(xThemes).data(this.dataset).enter().
             append("g").attr({
-                "class":"len",
+                "class":yThemes,
                 "transform": function(d,i){return "translate(0," + (i*22) + ")"}
 
             });
@@ -1738,14 +1970,22 @@
                 }
             });
         });
-        this.iconGroup.selectAll(g.len).data(this.dataset);
-        var te = this.iconGroup.selectAll("text");
-        te.each(function () {
-            var e = d3.select(this);
-            e.text(function(d){
-                return d.name + " " + Math.floor(d.value/pt*100) + "%";
-            });
-        })
+
+        var xThemes = "g.len";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        if(this.isIcon){
+            this.iconGroup.selectAll(xThemes).data(this.dataset);
+            var te = this.iconGroup.selectAll("text");
+            te.each(function () {
+                var e = d3.select(this);
+                e.text(function(d){
+                    return d.name + " " + Math.floor(d.value/pt*100) + "%";
+                });
+            })
+        }
     };
 
     /**
@@ -1814,6 +2054,22 @@
 
             if("undefined" !== typeof options.processColor){
                 this.processColor = options.processColor;
+            }
+
+            if("undefined" !== typeof options.processground){
+                this.processground = options.processground;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.fontSize){
+                this.fontSize = options.fontSize;
             }
 
         }else{
@@ -1926,7 +2182,7 @@
         this.pce.attr({
             "text-anchor":"middle",
             "font-family":"Arial",
-            "font-size":14,
+            "font-size":this.fontSize?this.fontSize:14,
             "font-weight":"bold",
             "fill":_this.processColor[1]
         });
@@ -2075,6 +2331,38 @@
                 this.color = d3.scale.ordinal().range(options.color);
             }
 
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
+            }
+
+            if("undefined" !== typeof options.icon) {
+                if(typeof options.icon === "boolean"){
+                    this.isIcon = options.icon;
+                }
+            }
+
+            if("undefined" !== typeof options.circle) {
+                if(typeof options.circle === "boolean"){
+                    this.circle = options.circle;
+                }
+            }
+
 
         }else{
             options = {};
@@ -2102,10 +2390,14 @@
         var innerRadius = 0;
         if(!this.circle){
             innerRadius = Math.min(this.w, this.h)/4;
+            //barPadding是饼图和画布四周的距离
+            this.arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius - this.barPadding);
+        }else{
+            //barPadding是饼图和画布四周的距离
+            this.arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius/2);
         }
 
-        //barPadding是饼图和画布四周的距离
-        this.arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius - this.barPadding);
+
     };
 
     /**
@@ -2196,7 +2488,7 @@
               "y": function (d,i) {
                   return i+11;
               },
-              "font-size":12
+              "font-size":"12px"
         });
 
         return g;
@@ -2255,34 +2547,63 @@
 })(window);
 
 /**
- * Created by wason on 2014/8/13.
+ * Created by wason on 2014/9/23.
  */
 (function(arg){
     var self = arg;
 
-    self.ustack = function(){
-        //上图位置
-        this.margin = {top: 10, right: 10, bottom: 100, left: 40};
-
-        //下图位置
-        this.margin2 = {top: 430, right: 10, bottom: 20, left: 40};
-
+    self.uarea = function(){
 
         //建立一个工具函数，来格式化时间
+        //this.parseDate = d3.time.format("%d-%b-%y").parse;
         this.parseDate = d3.time.format("%b %Y").parse;
 
         this.color = ["green","steelblue"];
 
     };
 
-    var USB = self.ustack.prototype = new ucommon();
+    var UAB = self.uarea.prototype = new ucommon();
 
-    USB.init = function(options){
+    UAB.init = function(options){
 
         if("undefined" !== typeof options){
 
             if("undefined" !== typeof options.color){
                 this.color = options.color;
+            }
+
+            if("undefined" !== typeof options.title) {
+                this.title = options.title;
+                this.setTitle(this.title);
+            }
+
+            if("undefined" !== typeof options.titleColor) {
+                this.titleColor = options.titleColor;
+                this.setTitleColor(this.titleColor);
+            }
+
+            if("undefined" !== typeof options.themes) {
+                this.setThemes(options.themes);
+            }
+
+            if("undefined" !== typeof options.type) {
+                this.type = options.type;
+            }
+
+            if("undefined" !== typeof options.barPadding) {
+                this.barPadding = options.barPadding;
+            }
+
+            if("undefined" !== typeof options.data) {
+                this.dataset = options.data;
+            }
+
+            if("undefined" !== typeof options.size) {
+                this.setSize(parseInt(options.size.split(",")[0]),parseInt(options.size.split(",")[1]));
+            }
+
+            if("undefined" !== typeof options.render) {
+                this.createRender(options.render.split(",")[0],options.render.split(",")[1]);
             }
 
         }else{
@@ -2291,188 +2612,158 @@
 
     };
 
-    USB.setScale = function(){
+    UAB.setScale = function(){
         var _this = this;
 
-        //总宽
-        this.width  = this.w - this.margin.left - this.margin.right;
-
-        //总高
+        this.margin = {top: 20, right: 20, bottom: 30, left: 50},
+        this.width = this.w - this.margin.left - this.margin.right,
         this.height = this.h - this.margin.top - this.margin.bottom;
 
-        //下图宽度
-        this.height2 = this.h - this.margin2.top - this.margin2.bottom;
+        this.x = d3.time.scale()
+            .range([0, this.width]);
 
-        //建立数据容器  把数值转为时间标度再转为宽度
-        this.x = d3.time.scale().range([0, this.w]);
-        this.x2 = d3.time.scale().range([0, this.width]);
-        //直线标度
-        this.y = d3.scale.linear().range([this.h, 0]);
-        this.y2 = d3.scale.linear().range([this.height2-this.margin.top, 0]);
+        this.y = d3.scale.linear()
+            .range([this.height, 0]);
 
-        var arr1=[];
+        var arr=[];
         for(var i = 0;i<this.dataset.length;i++){
             this.dataset[i].forEach(function(d){
                 d.name = _this.parseDate(d.name);//读取date并转换为时间对象
                 d.value = +d.value;
-                arr1.push(d.value);
+                arr.push(d.value);
             });
         }
 
-        /*this.dataset.data1.forEach(function(d) {//遍历数据
-            d.name = _this.parseDate(d.name);//读取date并转换为时间对象
-            d.value = +d.value;
-        });
-        this.dataset.data2.forEach(function(d) {//遍历数据
-            d.name = _this.parseDate(d.name);//读取date并转换为时间对象
-            d.value = +d.value;
-        });*/
+            /*_this.dataset.forEach(function(d) {
+                d.name = _this.parseDate(d.name);
+                d.value = +d.value;
+            });*/
 
-        this.x.domain(d3.extent(this.dataset[0].map(function(d) { return d.name; })));//利用domain方法给数据容器匹配上数据
-        this.y.domain([0, d3.max(arr1)]);
-        this.x2.domain(this.x.domain());
-        this.y2.domain(this.y.domain());
-
+        this.x.domain(d3.extent(_this.dataset[0], function(d) { return d.name; }));
+        //this.y.domain([0, d3.max(_this.dataset, function(d) { return d.value; })]);
+        this.y.domain([0, d3.max(arr)]);
     };
 
-    USB.createAxis = function(){
-        //制作上图的X轴
-        this.xAxis = d3.svg.axis().scale(this.x).orient("bottom");
-
-        //制作下图的X轴
-        this.xAxis2 = d3.svg.axis().scale(this.x2).orient("bottom");
-
-        //制作上图的Y轴
-        this.yAxis = d3.svg.axis().scale(this.y).orient("left");
-
-        this.xR = this.render.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate("+this.margin.left+"," + (this.h-this.margin.top) + ")")
-            .call(this.xAxis);
-
-        this.yR = this.render.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate("+this.margin.left+","+(-this.margin.top)+")")
-            .call(this.yAxis);
-
-    };
-
-    USB.createBrush = function(){
+    UAB.createGroup = function(){
         var _this = this;
 
-        _this.brush = d3.svg.brush().x(_this.x2).on("brush",function(){
-            _this.x.domain(_this.brush.empty() ? _this.x2.domain() : _this.brush.extent());
-            //利用domain方法绑定数据。domain方法的讲解可以参考第一篇教程
-            //这里是一个三元操作符。当brush.empty(选定为空)时，x与x2的数值范围是一样的，当有brush时，x绑定brush对象刷到的区域所代表的数据范围。
+        var g = _this.render
+            .attr("width", _this.w)
+            .attr("height", _this.h)
+            .append("g")
+            .attr("transform", "translate(" + _this.margin.left + "," + _this.margin.top + ")");
 
-            //利用新的数据更新上面图表
-            _this.focus.select("path").attr("d", _this.area);
-
-            //这里注意，上面图表的数据范围已经变化了，但坐标轴没变化，我们利用call方法来重新绑定一下
-            _this.focus.select(".x.axis").call(_this.xAxis);
-        });
+        return g;
     };
 
-    USB.createAreaGroup = function(){
-      var _this = this;
-        //生成上图area 注意这个area是一个path，要利用attr(d)加载进去
-        this.area = d3.svg.area()
+    UAB.createArea = function(g){
+        var _this = this;
+
+        _this.area = d3.svg.area()
             .x(function(d) { return _this.x(d.name); })
             .y0(_this.height)
             .y1(function(d) { return _this.y(d.value); })
             .interpolate("basis");
 
-        this.stacksvg = this.render.append("g")//主容器
-            .attr("width", _this.width)
-            .attr("height", _this.height);
-    };
-
-    USB.createBurshAreaGroup = function(){
-        var _this = this;
-
-        //生成下图area
-        this.area2 = d3.svg.area()
-            .x(function(d) { return _this.x2(d.name); })
-            .y0(_this.height2)
-            .y1(function(d) { return _this.y2(d.value); })
-            .interpolate("basis");
-
-        _this.context = _this.stacksvg.append("g")//制作下图容器
-            .attr("transform", "translate(" + _this.margin2.left + "," + (-_this.margin2.top) + ")");
-    };
-
-    USB.createArea = function(){
-        var _this = this;
-
-        _this.focus = this.stacksvg.append("g")//制作上图容器
-            .attr("transform", "translate(" + _this.margin.left + "," +(0) + ")");
-
-        _this.stacksvg.append("defs").append("clipPath")
-            .attr("id", "clip")
-            .append("rect")
-            .attr("width", _this.width)
-            .attr("height", _this.height);
+        /*g.append("path")
+         .datum(_this.dataset)
+         .attr("class", "area")
+         .attr("d", this.area);*/
 
         _this.dataset.forEach(function(d,i){
-            //添加上面图的图表
-            _this.focus.append("path")
+            g.append("path")
                 .datum(d)
-                .attr("clip-path", "url(#clip)")//在这里增加一个裁剪层
                 .attr("class","area"+(i+1))
                 .attr("d", _this.area)
                 .attr("fill-opacity",0.5+i/10)
                 .attr("fill",_this.color[i]);
         });
+
     };
 
-    USB.createBurshArea = function(){
+    UAB.createAixs = function(g){
         var _this = this;
 
-        _this.dataset.forEach(function(d){
-            //添加下面图的图表
-            _this.context.append("path")
-                .datum(d)
-                .attr("d", _this.area2);
-        });
+        this.xAxis = d3.svg.axis()
+            .scale(_this.x)
+            .orient("bottom");
 
-        //添加下面图的X坐标轴
-        _this.context.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + _this.height2 + ")")
-            .call(_this.xAxis2);
+        this.yAxis = d3.svg.axis()
+            .scale(_this.y)
+            .orient("left");
 
-        _this.context.append("g").attr("class","x brush").call(_this.brush)
-            .selectAll("rect").attr("y",-6).attr("height",_this.height2 + 7);
+        var xThemes = "x axis";
+        if(this.themes){
+            xThemes += "_" + this.themes;
+        }
+
+        var yaxis = "y axis";
+        if(this.themes){
+            yaxis += "_" + this.themes;
+        }
+
+        g.append("g")
+            .attr("class", xThemes)
+            .attr("transform", "translate(0," + (_this.height) + ")")
+            .call(this.xAxis);
+
+        g.append("g")
+            .attr("class", yaxis)
+            .call(this.yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Price ($)");
     };
 
-    USB.updateArea = function(){
+    UAB.updateArea = function(){
         var _this = this;
 
-        var arr = [];
+        /*d3.select("path.area")
+            .datum(_this.dataset).transition()
+            .duration(500).attr("d",_this.area);*/
 
-        //_this.x.domain(_this.brush.empty() ? _this.x2.domain() : _this.brush.extent());
-        _this.dataset.forEach(function(d,i){
-            _this.focus.select("path.area" + (i+1))
+        /*_this.dataset.forEach(function(d,i){
+            d3.select("path.area")
                 .datum(d).transition()
                 .duration(500).attr("d",_this.area);
-            //_this.focus.select(".y.axis").call(_this.y.domain);
+
+        });*/
+
+        var yaxis = ".y.axis";
+        if(this.themes){
+            yaxis += "_" + this.themes;
+        }
+
+        var arr1 = [];
+
+        _this.dataset.forEach(function(d,i){
+            d3.select("path.area" + (i+1))
+                .datum(d).transition()
+                .duration(500).attr("d",_this.area);
             _this.dataset[i].forEach(function(d){
-                arr.push(d.value);
+                arr1.push(d.value);
             });
         });
-        _this.y.domain([0,d3.max(arr)]);
-        _this.render.select(".y.axis").call(_this.yAxis);
-        //这里注意，上面图表的数据范围已经变化了，但坐标轴没变化，我们利用call方法来重新绑定一下
+
+        //_this.y.domain([0, d3.max(_this.dataset, function(d) { return d.value; })]);
+        _this.y.domain([0, d3.max(arr1)]);
+        _this.render.select(yaxis).call(_this.yAxis);
+
     };
 
-    USB.draw = function(options){
+    UAB.draw = function(options){
         this.init(options);
-        this.createAxis();
-        this.createAreaGroup();
-        this.createArea();
+        this.setScale();
+        this.createTitle(this.title);
+        this.g = this.createGroup();
+        this.createArea(this.g);
+        this.createAixs(this.g);
     };
 
-    USB.update = function(d){
+    UAB.update = function(d){
         this.dataset = d;
         this.updateArea();
     };

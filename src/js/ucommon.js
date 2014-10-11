@@ -62,16 +62,17 @@
         //如果显示y轴，则在画布的最左侧留出20px的宽度
         this.yAxisPadding = 30;
         //设置标题栏颜色
-        this.titleColor = "#ffffff"
+        this.titleColor = "steelblue";
+        this.themes = "default";
     };
 
-    var HS = self.ucommon.prototype;
+    var UC = self.ucommon.prototype;
 
     /***
      * 设置柱状图尺寸类型
      * @param t 类型: 0-4
      */
-    HS.setType = function (t) {
+    UC.setType = function (t) {
         if(typeof  t === "number"){
 
             this.type = t;
@@ -84,7 +85,7 @@
      * 设置坐标轴样式
      * @param v
      */
-    HS.setAxisStyle = function(v){
+    UC.setAxisStyle = function(v){
         this.barstyle["axisStyle"] = v;
     };
 
@@ -93,16 +94,16 @@
      * @param w 宽
      * @param h 高
      */
-    HS.setSize = function (w,h) {
+    UC.setSize = function (w,h) {
         if(this.type > 0 && this.type <= 4){
             this.w = this.sizearray[this.type - 1][0];
             this.h = this.sizearray[this.type - 1][1];
         }
         else if(this.type == 0){
             if(typeof w === "number" && typeof h === "number"){
-
                 this.w = w;
                 this.h = h;
+
             }else{
                 console.log("图表尺寸只能够接受数字类型,系统已经将数据类型设置为默认500*300大小");
             }
@@ -115,7 +116,7 @@
      * 设置图标的标题
      * @param t
      */
-    HS.setTitle = function (t) {
+    UC.setTitle = function (t) {
         this.title = t;
     };
 
@@ -123,7 +124,7 @@
      * 设置是否显示横坐标即X轴
      * @param x true/fase
      */
-    HS.isxAsix = function (x) {
+    UC.isxAsix = function (x) {
         if(typeof x === "boolean"){
 
             this.hasxAxis = x;
@@ -134,7 +135,7 @@
      * 设置是否显示纵坐标即Y轴
      * @param y true/fase
      */
-    HS.isyAsix = function (y) {
+    UC.isyAsix = function (y) {
         if(typeof y === "boolean"){
 
             this.hasyAxis = y;
@@ -145,7 +146,7 @@
      * 设置x轴标题
      * @param t
      */
-    HS.setxAxistitle = function (t) {
+    UC.setxAxistitle = function (t) {
         if(t != "" && t != null && typeof t ==="string"){
             this.xAxistitle = t;
         }
@@ -155,7 +156,7 @@
      * 设置y轴标题
      * @param t
      */
-    HS.setyAxistitle = function (t) {
+    UC.setyAxistitle = function (t) {
         if(t != "" && t != null && typeof t ==="string"){
             this.yAxistitle = t;
         }
@@ -165,7 +166,7 @@
      * 设置图标标题颜色
      * @param t
      */
-    HS.setTitleColor = function (t) {
+    UC.setTitleColor = function (t) {
         if(typeof t === "string"){
             this.titleColor = t;
         }
@@ -177,7 +178,7 @@
      * @param r 对应的被选择对象的值。
      * @returns {void|*}
      */
-    HS.createRender = function (t,r) {
+    UC.createRender = function (t,r) {
         if(t == "jo"){
             this.render = this._setRendsize(d3.select(r).append("svg"),this.w,this.h);
             return this.render;
@@ -199,7 +200,7 @@
      * @param h 设置的高
      * @returns {*}
      */
-    HS._setRendsize = function (o,w,h){
+    UC._setRendsize = function (o,w,h){
         o.attr({
             width: w,
             height: h
@@ -211,7 +212,7 @@
      * 绑定外部数据源
      * @param d 外部数据源，是一个JavaScript object
      */
-    HS.bindData = function (d) {
+    UC.bindData = function (d) {
         if(typeof d === "object"){
 
             this.dataset = d;
@@ -224,7 +225,7 @@
      * 返回是否显示title，用于后续的尺寸判断
      * @returns {boolean}
      */
-    HS.hasTtile = function () {
+    UC.hasTtile = function () {
         var rtn = false;
         if(this.title != "" && this.title != null && typeof this.title != "undefined"){
             rtn = true;
@@ -232,7 +233,7 @@
         return rtn;
     };
 
-    HS.setBarpadding = function (b) {
+    UC.setBarpadding = function (b) {
         if(typeof b === "number"){
             this.barPadding = b;
         }
@@ -241,7 +242,7 @@
     /***
      * 创建title并设置显示位置等属性
      */
-    HS.createTitle = function () {
+    UC.createTitle = function () {
         var _this = this;
         if(this.hasTtile()){
 
@@ -252,6 +253,12 @@
                 y: 20,
                 fill:this.titleColor
             })
+        }
+    };
+
+    UC.setThemes = function (t) {
+        if(t){
+            this.themes = t;
         }
     };
 
